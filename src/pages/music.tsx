@@ -132,11 +132,11 @@ export default function MusicPage() {
 
   // WebSocket connection for real-time featured music updates
   useEffect(() => {
-    console.log('🔌 [FEATURED-WEBSOCKET] Setting up featured music real-time updates...')
+    console.log('🔌 [FEATURED-WEBSOCKET] Connecting to WebSocket...')
     
-    // Create WebSocket connection (no auth needed for featured music updates)
-    const featuredSocket = io('http://localhost:5000', {
-      transports: ['websocket', 'polling']
+    // Use production API URL
+    const featuredSocket = io(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}`, {
+      transports: ['websocket', 'polling']  
     })
 
     // Connection events
