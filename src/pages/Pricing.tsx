@@ -49,7 +49,7 @@ export default function PricingPage() {
     // WebSocket connection for real-time updates
     const token = localStorage.getItem('veeqai_token')
     if (token) {
-      const socket = io('${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}', {
+      const socket = io(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}`, {
         auth: { token }
       })
       

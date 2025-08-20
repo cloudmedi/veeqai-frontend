@@ -135,7 +135,7 @@ export default function MusicPage() {
     console.log('🔌 [FEATURED-WEBSOCKET] Connecting to WebSocket...')
     
     // Use production API URL
-    const featuredSocket = io(`${import.meta.env.VITE_API_BASE_URL || '${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}'}`, {
+    const featuredSocket = io(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}`, {
       transports: ['websocket', 'polling']  
     })
 
