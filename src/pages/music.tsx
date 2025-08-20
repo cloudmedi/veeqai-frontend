@@ -57,7 +57,7 @@ export default function MusicPage() {
   // Refresh user credits
   const refreshUserCredits = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/me', {
+      const response = await fetch('${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/api/auth/me', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -81,7 +81,7 @@ export default function MusicPage() {
     
     try {
       setLoadingCreditCost(true)
-      const response = await fetch('http://localhost:5000/api/music/credits/calculate', {
+      const response = await fetch('${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/api/music/credits/calculate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -135,7 +135,7 @@ export default function MusicPage() {
     console.log('🔌 [FEATURED-WEBSOCKET] Connecting to WebSocket...')
     
     // Use production API URL
-    const featuredSocket = io(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}`, {
+    const featuredSocket = io(`${import.meta.env.VITE_API_BASE_URL || '${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}'}`, {
       transports: ['websocket', 'polling']  
     })
 
@@ -234,7 +234,7 @@ export default function MusicPage() {
   // Fetch featured music categories
   const fetchFeaturedCategories = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/music/featured/categories')
+      const response = await fetch('${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/api/music/featured/categories')
       if (response.ok) {
         const data = await response.json()
         setFeaturedCategories(data.data || {})
@@ -250,7 +250,7 @@ export default function MusicPage() {
     try {
       setLoadingFeatured(true)
       const response = await fetch(
-        `http://localhost:5000/api/music/featured?category=${selectedCategory}&subcategory=${selectedSubcategory}&limit=6`
+        `${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/api/music/featured?category=${selectedCategory}&subcategory=${selectedSubcategory}&limit=6`
       )
       if (response.ok) {
         const data = await response.json()
@@ -270,7 +270,7 @@ export default function MusicPage() {
   // Track engagement
   const trackEngagement = async (musicId: string, action: string) => {
     try {
-      await fetch(`http://localhost:5000/api/music/featured/${musicId}/engage`, {
+      await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/api/music/featured/${musicId}/engage`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -330,7 +330,7 @@ export default function MusicPage() {
   const startPollingForMusic = (musicId: string) => {
     const pollInterval = setInterval(async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/music/${musicId}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/api/music/${musicId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

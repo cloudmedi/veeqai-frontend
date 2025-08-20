@@ -211,7 +211,7 @@ export default function TextToSpeechPage() {
   const fetchVoices = async () => {
     try {
       // Grouped voices API kullan
-      const response = await fetch('http://localhost:5000/api/voices/list-grouped', {
+      const response = await fetch('${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/api/voices/list-grouped', {
         method: 'GET',
         credentials: 'omit', // CSRF token gereksinimini bypass et
         headers: {
@@ -247,7 +247,7 @@ export default function TextToSpeechPage() {
 
     setGenerating(true)
     try {
-      const response = await fetch('http://localhost:5000/api/voices/generate-tts', {
+      const response = await fetch('${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/api/voices/generate-tts', {
         method: 'POST',
         credentials: 'omit', // CSRF bypass
         headers: {
@@ -299,7 +299,7 @@ export default function TextToSpeechPage() {
     if (voice.isGroup && voice.moods && voice.moods.length > 0) {
       const firstMood = voice.moods[0]
       try {
-        const response = await fetch(`http://localhost:5000/api/voices/preview/${firstMood._id}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/api/voices/preview/${firstMood._id}`, {
           credentials: 'omit'
         })
         const data = await response.json()
@@ -327,7 +327,7 @@ export default function TextToSpeechPage() {
     // For single voices
     if (voice._id) {
       try {
-        const response = await fetch(`http://localhost:5000/api/voices/preview/${voice._id}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/api/voices/preview/${voice._id}`, {
           credentials: 'omit'
         })
         const data = await response.json()

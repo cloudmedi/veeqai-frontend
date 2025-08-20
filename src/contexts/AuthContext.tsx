@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
 
   // ✅ Environment-based API URL
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+  const API_URL = import.meta.env.VITE_API_URL || '${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/api'
 
 
   // ✅ Client-side token expiry validation
