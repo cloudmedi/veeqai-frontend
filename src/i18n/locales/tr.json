@@ -1,0 +1,586 @@
+{
+  "nav": {
+    "home": "Ana Sayfa",
+    "music": "Müzik",
+    "voiceLibrary": "Ses Kütüphanesi",
+    "voiceClone": "Ses Klonlama",
+    "voiceDesign": "Ses Tasarımı", 
+    "voiceIsolator": "Ses Ayırıcı"
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "success": "Başarılı",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "create": "Oluştur",
+    "generate": "Üret",
+    "download": "İndir",
+    "new": "Yeni",
+    "share": "Paylaş",
+    "copy": "Kopyala",
+    "play": "Oynat",
+    "pause": "Durdur",
+    "duration": "Süre",
+    "quantity": "Miktar",
+    "credits": "Kredi",
+    "login": "Giriş",
+    "register": "Kayıt",
+    "logout": "Çıkış",
+    "email": "E-posta",
+    "password": "Şifre",
+    "name": "İsim",
+    "close": "Kapat",
+    "clear": "Temizle",
+    "words": "kelime"
+  },
+  "auth": {
+    "welcome": "VeeqAI'ya Hoş Geldiniz",
+    "welcomeBack": "Tekrar hoş geldiniz",
+    "signIn": "Hesabınıza giriş yapın",
+    "signUp": "Hesabınızı oluşturun",
+    "signInSubtitle": "Harika ses içerikleri oluşturmaya devam etmek için giriş yapın",
+    "dontHaveAccount": "Hesabınız yok mu?",
+    "alreadyHaveAccount": "Zaten hesabınız var mı?",
+    "forgotPassword": "Şifrenizi mi unuttunuz?",
+    "rememberMe": "Beni hatırla",
+    "emailPlaceholder": "E-posta adresinizi girin",
+    "passwordPlaceholder": "Şifrenizi girin",
+    "namePlaceholder": "İsminizi girin",
+    "signingIn": "Giriş yapılıyor...",
+    "orContinueWith": "Veya şununla devam edin",
+    "invalidCredentials": "Geçersiz e-posta veya şifre",
+    "loginFailed": "Giriş başarısız. Lütfen tekrar deneyin.",
+    "heroTitle": "Metni Gerçekçi Konuşmaya Dönüştürün",
+    "heroSubtitle": "Gelişmiş AI ses teknolojimiz ile profesyonel seslendirmeler, sesli kitaplar ve podcast'ler oluşturun",
+    "feature1": "100+ Ses",
+    "feature2": "Ses Klonlama",
+    "feature3": "HD Kalite",
+    "createAccount": "Hesabınızı oluşturun",
+    "startCreating": "Bugün harika ses içerikleri oluşturmaya başlayın",
+    "fullName": "Ad Soyad",
+    "createPassword": "Şifre oluşturun",
+    "confirmPassword": "Şifre Onayı",
+    "confirmPasswordPlaceholder": "Şifrenizi onaylayın",
+    "creatingAccount": "Hesap oluşturuluyor...",
+    "passwordsDontMatch": "Şifreler eşleşmiyor",
+    "passwordTooShort": "Şifre en az 6 karakter olmalı",
+    "registrationFailed": "Kayıt başarısız. E-posta zaten kullanımda olabilir.",
+    "registrationError": "Kayıt başarısız. Lütfen tekrar deneyin.",
+    "brandName": "VeeqAI Audio",
+    "google": "Google",
+    "github": "GitHub",
+    "journeyTitle": "Ses Yolculuğunuza Başlayın",
+    "journeySubtitle": "İçeriklerini hayata geçirmek için AI kullanan binlerce yaratıcıya katılın",
+    "naturalVoicesTitle": "Doğal Sesler",
+    "naturalVoicesDesc": "Birden fazla dilde 100+ ultra gerçekçi AI sesinden seçin",
+    "musicCreationTitle": "Müzik Yaratma",
+    "musicCreationDesc": "AI destekli kompozisyon ile orijinal müzik parçaları üretin",
+    "voiceCloningTitle": "Ses Klonlama",
+    "voiceCloningDesc": "Sadece 10 saniyelik temiz ses ile herhangi bir sesi klonlayın",
+    "multiLangTitle": "Çok Dil Desteği",
+    "multiLangDesc": "Ana dil telaffuzu ile 50+ dilde içerik oluşturun",
+    "activeUsers": "Aktif Kullanıcı",
+    "audioCreated": "Üretilen Ses",
+    "languages": "Dil",
+    "agreeToTerms": "Kabul ediyorum:",
+    "termsOfService": "Hizmet Şartları",
+    "and": "ve",
+    "privacyPolicy": "Gizlilik Politikası",
+    "orSignUpWith": "Veya şununla kayıt ol"
+  },
+  "home": {
+    "title": "Gerçekçi Ses Oluşturun",
+    "textToSpeech": "Metinden Konuşma",
+    "musicCreation": "MÜZİK YARATMA",
+    "placeholder": "VeeqAI ile birden fazla dilde, seste ve duyguyla gerçekçi sesler oluşturmak için buraya yazmaya başlayın.",
+    "tellStory": "Hikaye Anlatın",
+    "createCommercial": "Reklam Oluşturun",
+    "buildTutor": "AI Öğretmen Yapın",
+    "exploreVoices": "İhtiyacınıza uygun sesleri keşfedin",
+    "discoverMusic": "Projenize uygun müzikleri keşfedin",
+    "exploreMore": "Daha fazla keşfedin",
+    "productShowcase": "Güçlü AI Ses Özellikleri",
+    "productShowcaseDesc": "VeeqAI'yi en üstün ses platformu yapan son teknoloji yetenekleri keşfedin",
+    "showcase": {
+      "voiceGeneration": "Ses Üretimi",
+      "voiceGenerationDesc": "Gelişmiş AI teknolojisi ile doğal, insan benzeri sesler oluşturun. Mükemmel telaffuzla çoklu dillerde konuşma üretin.",
+      "musicGeneration": "Müzik Üretimi", 
+      "musicGenerationDesc": "AI kullanarak orijinal müzik parçaları bestelyin. Her türde fon müziği, jingle ve tam kompozisyonlar yaratın.",
+      "voiceDesign": "Ses Tasarımı",
+      "voiceDesignDesc": "Benzersiz sesler tasarlayın ve özelleştirin. Karakteristikleri karıştırın, tonunu ayarlayın ve projeniz için mükemmel sesi yaratın.",
+      "apiIntegration": "API Entegrasyonu",
+      "apiIntegrationDesc": "Güçlü API'miz ve kapsamlı geliştirici araçlarımızla VeeqAI'yi uygulamalarınıza sorunsuzca entegre edin.",
+      "realTimeProcessing": "Gerçek Zamanlı İşleme",
+      "realTimeProcessingDesc": "Ultra düşük gecikmeyle ses üretin. Canlı uygulamalar, yayın ve etkileşimli deneyimler için mükemmel.",
+      "analytics": "Analitik ve İçgörüler",
+      "analyticsDesc": "Detaylı analitiklerle kullanımı takip edin, performansı izleyin ve ses üretim kalıplarınız hakkında içgörüler edinin."
+    },
+    "voiceSelection": "Ses Seçimi",
+    "library": "Kütüphane",
+    "myVoices": "Seslerim",
+    "collectedVoices": "Toplanan Sesler",
+    "language": "Dil",
+    "english": "İngilizce",
+    "spanish": "İspanyolca",
+    "french": "Fransızca",
+    "accent": "Aksan",
+    "american": "Amerikan",
+    "british": "İngiliz",
+    "australian": "Avustralya",
+    "gender": "Cinsiyet",
+    "male": "Erkek",
+    "female": "Kadın",
+    "neutral": "Nötr",
+    "age": "Yaş",
+    "young": "Genç",
+    "adult": "Yetişkin",
+    "senior": "Yaşlı",
+    "use": "Kullan"
+  },
+  "music": {
+    "title": "Müzik Yaratma",
+    "myWork": "Çalışmalarım",
+    "collection": "Koleksiyon",
+    "simple": "Basit",
+    "advanced": "Gelişmiş",
+    "prompt": "Oluşturmak istediğiniz müziği tarif edin...",
+    "musicDescription": "Müzik Açıklaması",
+    "lyrics": "Şarkı Sözleri (İsteğe bağlı)",
+    "lyricsPlaceholder": "Özel şarkı sözleri girin veya AI oluşturması için boş bırakın...",
+    "stylePrompt": "Müzik stilini, türünü, ruh halini tarif edin...",
+    "creating": "Oluşturuluyor...",
+    "generating": "Üretiliyor...",
+    "noTracksYet": "Henüz parça oluşturulmadı",
+    "startCreating": "İlk müzik parçanızı oluşturun",
+    "copyPrompt": "Prompt'u Kopyala",
+    "characters": "karakter",
+    "tracks": "parça",
+    "errorPromptRequired": "Lütfen bir müzik prompt'u girin",
+    "quantity": "Miktar",
+    "errorGeneratingMusic": "Müzik üretimi başarısız. Lütfen tekrar deneyin.",
+    "duration": {
+      "30s": "30sn",
+      "1min": "1dk",
+      "2min": "2dk",
+      "3min": "3dk",
+      "4min": "4dk"
+    }
+  },
+  "voice": {
+    "library": "Ses Kütüphanesi",
+    "clone": "Ses Klonlama",
+    "design": "Ses Tasarımı",
+    "isolator": "Ses Ayırıcı",
+    "upload": "Yükle",
+    "record": "Kaydet",
+    "generate": "Ses Üret",
+    "preview": "Önizleme",
+    "sampleRate": "Örnekleme Hızı",
+    "quality": "Kalite",
+    "instantClone": "Anında Klonlama",
+    "slotsRemaining": "Kalan ses slotu: {{current}}/{{total}}",
+    "tabs": {
+      "library": "Kütüphane",
+      "myVoices": "Seslerim",
+      "collectedVoices": "Koleksiyonum",
+      "selected": "Seçili"
+    },
+    "filters": {
+      "language": "Dil",
+      "accent": "Aksan",
+      "gender": "Cinsiyet",
+      "age": "Yaş",
+      "male": "Erkek",
+      "female": "Kadın",
+      "neutral": "Nötr",
+      "young": "Genç",
+      "adult": "Yetişkin",
+      "senior": "Yaşlı",
+      "child": "Çocuk"
+    },
+    "moods": {
+      "calm": "Sakin",
+      "excited": "Heyecanlı",
+      "sad": "Üzgün",
+      "angry": "Kızgın",
+      "neutral": "Nötr",
+      "happy": "Mutlu"
+    },
+    "selection": {
+      "title": "Ses Seçimi",
+      "changeVoice": "Ses Değiştir",
+      "mood": "Ses Tonu",
+      "selectMood": "Ton seçin",
+      "emotion": "Duygu",
+      "speed": "Hız",
+      "pitch": "Perde",
+      "volume": "Ses Seviyesi",
+      "limitedTimeFree": "Sınırlı Süre Ücretsiz",
+      "auto": "Otomatik",
+      "copied": "Kopyalandı!",
+      "copyId": "ID Kopyala",
+      "professionalModel": "Profesyonel ses modeli",
+      "filterOptions": {
+        "turkish": "Türkçe",
+        "english": "İngilizce", 
+        "standard": "Standart",
+        "regional": "Bölgesel",
+        "child": "Çocuk"
+      }
+    }
+  },
+  "player": {
+    "nowPlaying": "Şu An Çalıyor",
+    "playing": "Çalıyor",
+    "previous": "Önceki",
+    "next": "Sonraki", 
+    "volume": "Ses",
+    "favorite": "Favoriler"
+  },
+  "textToSpeech": {
+    "title": "Metinden Konuşma",
+    "enterText": "Metin Girin",
+    "characters": "karakter",
+    "placeholder": "Metninizi buraya yazın veya yapıştırın...",
+    "settings": "Ayarlar",
+    "voice": "Ses",
+    "model": "Model",
+    "language": "Dil",
+    "speed": "Hız",
+    "pitch": "Perde",
+    "volume": "Ses Seviyesi",
+    "creditsRequired": "Gerekli Kredi",
+    "credits": "kredi",
+    "availableCredits": "Kullanılabilir Kredi",
+    "generateSpeech": "Ses Oluştur",
+    "generating": "Üretiliyor...",
+    "pleaseEnterTextAndSelectVoice": "Lütfen metin girin ve ses seçin",
+    "speechGenerationFailed": "Ses üretimi başarısız",
+    "fileUpload": "Dosya yükleme",
+    "uploadDocument": "Belge yükle",
+    "clickOrDragUpload": "Yüklemek için tıklayın veya sürükleyin.",
+    "fileFormats": ".pdf, .txt, .html, .docx; 50MB'a kadar, 200.000 karakter.",
+    "speechHistory": "Geçmiş",
+    "items": "öğe",
+    "searchHistory": "Ara...",
+    "all": "Tümü",
+    "today": "Bugün",
+    "thisWeek": "Bu Hafta",
+    "thisMonth": "Bu Ay",
+    "hoursAgo": "saat önce",
+    "yesterday": "Dün",
+    "showing": "Gösterilen",
+    "of": "/",
+    "clearAll": "Tümünü Temizle"
+  },
+  "voiceDesign": {
+    "subtitle": "Metin açıklamasından tamamen yeni sesler tasarlayın",
+    "prompt": "Prompt",
+    "textToPreview": "Önizleme Metni",
+    "autoGenerate": "Otomatik oluştur",
+    "voiceSlotsRemaining": "Kalan ses slotu",
+    "resultsPlaceholder": "Oluşturulan ses sonuçları burada görünecek",
+    "examplePrompt": "Örn: Heyecanlı ve coşkulu erkek teknoloji vlogger'ı, hızlı tempolu, yüksek enerji ve ikna edici.",
+    "defaultPreviewText": "Bu ses VeeqAI'nin en son ses tasarım modeli ile üretilmiştir.",
+    "classicNarrator": "Klasik Anlatıcı",
+    "radioDJ": "Radyo DJ'i",
+    "audiobookReader": "Sesli Kitap Okuyucusu",
+    "gruffDetective": "Sert Dedektif",
+    "excitedReviewer": "Heyecanlı İncelemeci"
+  },
+  "voiceClone": {
+    "subtitle": "Sadece 10 saniyelik temiz ses kaydı kullanarak sesi klonlayın.",
+    "importVoice": "Sesinizi İçe Aktarın",
+    "addDropFile": "Dosya ekle veya sürükle",
+    "fileSize": "Her biri 20MB'a kadar",
+    "recordDuration": "10-60 saniye uzunluğunda",
+    "uploadedSamples": "Yüklenen Örnekler",
+    "infoText1": "Lütfen sessiz bir ortamda temiz ses kaydı yükleyin. Yankı, birden fazla konuşmacı, arka plan gürültüsü vb. ses klonlama kalitesini etkileyecektir.",
+    "infoText2": "Ses gürültüsünü azaltmak için gürültü ayırma özelliğini kullanabilirsiniz, ancak bu sesin detayını da etkileyebilir. Bu nedenle klonlama için materyal seçerken en kaliteli bölümü seçmeniz önerilir.",
+    "advancedSettings": "Gelişmiş Ayarlar (İsteğe bağlı)",
+    "removeBackgroundNoise": "Arka Plan Gürültüsünü Kaldır",
+    "enableAccentOptimization": "Aksan Optimizasyonunu Etkinleştir",
+    "defaultPreviewText": "Merhaba, ses hizmetlerimizde size yardımcı olmaktan memnuniyet duyarım. Kendinizle rezonans kuran bir ses seçin ve yaratıcı ses yolculuğumuza birlikte başlayalım",
+    "german": "Almanca",
+    "chinese": "Çince",
+    "japanese": "Japonca",
+    "korean": "Korece",
+    "arabic": "Arapça"
+  },
+  "voiceIsolator": {
+    "subtitle": "Daha iyi kalite için arka plan gürültüsünü ayırarak temiz konuşma sesi elde edin.",
+    "uploadDescription": "Ses veya video dosyası ekleyin ya da sürükleyin, 500MB'a ve 300 saniyeye kadar.",
+    "uploadAudio": "Ses Yükle"
+  },
+  "sidebar": {
+    "aiGeneration": "Yapay Zekâ Üretimi",
+    "aiTools": "Yapay Zekâ Araçları",
+    "subscribe": "Abonelik",
+    "accessAPI": "API'ye Erişim",
+    "aboutVeeqAI": "VeeqAI Hakkında",
+    "beta": "Beta",
+    "new": "Yeni"
+  },
+  "header": {
+    "upgrade": "Yükselt",
+    "subscription": "Abonelik",
+    "free": "Ücretsiz",
+    "pro": "Pro",
+    "enterprise": "Kurumsal"
+  },
+  "settings": {
+    "language": "Dil",
+    "theme": "Tema",
+    "dark": "Koyu",
+    "light": "Açık",
+    "system": "Sistem",
+    "title": "Ayarlar",
+    "subtitle": "Hesap ayarlarınızı ve tercihlerinizi yönetin",
+    "profileSettings": "Profil Ayarları",
+    "passwordSettings": "Şifre Ayarları",
+    "themeSettings": "Tema Ayarları",
+    "updateProfile": "Profili Güncelle",
+    "changePassword": "Şifre Değiştir",
+    "currentPassword": "Mevcut Şifre",
+    "newPassword": "Yeni Şifre",
+    "confirmNewPassword": "Yeni Şifreyi Onayla",
+    "profileUpdateSuccess": "Profil başarıyla güncellendi",
+    "profileUpdateError": "Profil güncellenirken hata oluştu",
+    "passwordChangeSuccess": "Şifre başarıyla değiştirildi",
+    "passwordChangeError": "Şifre değiştirilirken hata oluştu"
+  },
+  "pricing": {
+    "title": "Planınızı Seçin",
+    "subtitle": "Esnek fiyatlandırma planlarımızla AI destekli ses üretiminin tüm potansiyelini açığa çıkarın",
+    "monthly": "Aylık",
+    "yearly": "Yıllık",
+    "save20": "%20 Tasarruf",
+    "limitedTime": "Sınırlı süre",
+    "monthBilledAnnually": "ay yıllık faturalandırma",
+    "year": "yıl",
+    "month": "ay",
+    "saveAnnually": "Yıllık %{{discount}} tasarruf",
+    "creditsPerMonth": "aylık kredi",
+    "currentPlan": "Mevcut Plan",
+    "getStartedFree": "Ücretsiz Başla",
+    "upgradeTo": "{{plan}} Planına Yükselt",
+    "subscriptionComingSoon": "Abonelik özelliği yakında eklenecek!",
+    "plans": {
+      "free": "Ücretsiz",
+      "starter": "Başlangıç",
+      "creator": "İçerik Üretici",
+      "pro": "Profesyonel",
+      "enterprise": "Kurumsal"
+    },
+    "features": {
+      "textToSpeech": "Gerçekçi Metin Seslendirme",
+      "textToSpeechDesc": "Duygusal farkındalığa sahip doğal sesler ({{rate}} kredi/karakter)",
+      "musicGeneration": "AI Müzik Üretimi",
+      "musicGenerationDesc": "Metin açıklamalarından özel müzik oluşturun ({{rate}} kredi/30s)",
+      "voiceCloning": "Ses Klonlama",
+      "voiceCloningDesc": "Birkaç dakikalık ses kaydıyla herhangi bir sesi klonlayın ({{rate}} kredi/ses)",
+      "voiceIsolator": "Ses Ayırıcı",
+      "voiceIsolatorDesc": "Vokalleri arka plan sesinden ayırın ({{rate}} kredi/dakika)",
+      "apiAccess": "API Erişimi",
+      "apiAccessDesc": "AI ses teknolojisini uygulamalarınıza entegre edin",
+      "commercialLicense": "Ticari Lisans",
+      "commercialLicenseDesc": "Üretilen içerikleri ticari amaçlarla kullanın"
+    }
+  },
+  "termsOfService": {
+    "title": "Kullanım Koşulları",
+    "lastUpdated": "Son güncelleme",
+    "agreement": {
+      "title": "Koşulları Kabul Etme",
+      "content": "Bu Kullanım Koşulları (\"Koşullar\") sizinle VEMLO YAZILIM BİLGİ İLETİŞİM TEKNOLOJİLERİ REKLAM PAZARLAMA LİMİTED ŞİRKETİ (\"şirket\", \"biz\", \"bizim\" veya \"bizimki\") arasında VeeqAI platformu ve hizmetlerini kullanımınızla ilgili yasal olarak bağlayıcı bir anlaşmayı oluşturur. Hizmetlerimize erişerek veya kullanarak bu Koşullara bağlı olmayı kabul edersiniz."
+    },
+    "services": {
+      "title": "Hizmet Açıklaması",
+      "intro": "VeeqAI şu hizmetleri kapsayan yapay zeka destekli ses hizmetleri sağlar:",
+      "tts": "Sentetik seslerle metin-konuşma dönüşümü",
+      "cloning": "Ses klonlama ve özel ses üretimi",
+      "music": "Müzik üretimi ve ses işleme",
+      "isolation": "Ses izolasyonu ve ses geliştirme",
+      "api": "Geliştiriciler ve kurumlar için API erişimi"
+    },
+    "account": {
+      "title": "Hesap Kayıt ve Güvenlik",
+      "responsibility": "Belirli özelliklere erişmek için hesap oluşturmalısınız. Hesap bilgilerinizin gizliliğini korumak ve hesabınız altındaki tüm faaliyetlerden sorumlu olmak sizin görevinizdir.",
+      "accuracy": "Kayıt sırasında doğru ve eksiksiz bilgi sağlamalı ve hesap bilgilerinizi güncel tutmalısınız."
+    },
+    "acceptableUse": {
+      "title": "Kabul Edilebilir Kullanım Politikası",
+      "intro": "Hizmetlerimizi şunlar için KULLANMAMAYı kabul edersiniz:",
+      "laws": "Herhangi bir yasa veya düzenlemeyi ihlal eden içerik oluşturmak",
+      "consent": "Ses sahibinin uygun rızası olmadan sesler üretmek",
+      "misleading": "Yanıltıcı, karalayıcı veya dolandırıcı içerik oluşturmak",
+      "impersonate": "Başkalarını taklit etmek veya kimliğinizi yanlış şekilde sunmak",
+      "harassment": "Taciz, zorbalık veya tehdit içerik oluşturmak",
+      "intellectual": "Üçüncü şahısların fikri mülkiyet haklarını ihlal etmek",
+      "reverse": "Sistemlerimizi tersine mühendislik yapmaya veya hacklemeye çalışmak",
+      "resell": "Hizmetlerimize erişimi izinsiz olarak paylaşmak veya yeniden satmak"
+    },
+    "rights": {
+      "title": "Ses Verileri ve İçerik Hakları",
+      "yourContent": {
+        "title": "İçeriğiniz",
+        "content": "Sağladığınız orijinal içeriğin sahipliğini elinde tutuyorsunuz, ancak hizmetlerimizi sunmak için içeriğinizi işleme, saklama ve kullanma lisansı veriyorsunuz."
+      },
+      "generated": {
+        "title": "Üretilen İçerik",
+        "content": "AI hizmetlerimiz kullanılarak üretilen içerik kullanım politikalarımıza tabidir. Kullandığınız ses verileri için uygun hak ve izinlere sahip olduğunuzdan emin olmak sizin sorumlugunuzdur."
+      },
+      "voiceConsent": {
+        "title": "Ses Rızası",
+        "content": "Başkasının sesini klonlamadan veya kullanmadan önce açık rıza almalısınız. Belirli kullanımlar için rıza kanıtı isteyebiliriz."
+      }
+    },
+    "payment": {
+      "title": "Ödeme ve Faturalama",
+      "credits": "Hizmetlerimiz kredi tabanlı sistem üzerinde çalışır. Fiyatlandırma sayfamızda belirtildiği gibi kredi satın alabilir veya planlara abone olabilirsiniz.",
+      "processing": "Tüm ödemeler üçüncü taraf ödeme işlemcileri aracılığıyla güvenli bir şekilde işlenir. İadeler iade politikamıza tabidir.",
+      "pricing": "Mevcut kullanıcılara 30 gün önceden haber vererek fiyatlandırmayı değiştirme hakkını saklı tutarız."
+    },
+    "availability": {
+      "title": "Hizmet Kullanılabilirliği ve Performansı",
+      "content": "Yüksek kullanılabilirlik için çaba gösterse de hizmetlerimize kesintisiz erişim garantisi vermiyoruz. Hizmet kullanılabilirliğini geçici olarak etkileyebilecek bakım, güncellemeler yapabilir veya teknik sorunlar yaşayabiliriz."
+    },
+    "intellectualProperty": {
+      "title": "Fikri Mülkiyet",
+      "content": "Yazılım, algoritmalar ve kullanıcı arayüzleri dahil olmak üzere VeeqAI platformu fikri mülkiyet yasalarıyla korunmaktadır. İznimiz olmadan kopyalayamaz, değiştiremez, dağıtamaz veya türev eserler oluşturamazsınız."
+    },
+    "privacy": {
+      "title": "Gizlilik ve Veri Koruması",
+      "content": "Bilgilerinizin toplanması ve kullanımı Gizlilik Politikamız tarafından yönetilir. Hizmetlerimizi kullanarak Gizlilik Politikasında açıklanan veri uygulamalarımıza rıza göstermiş olursunuz."
+    },
+    "disclaimers": {
+      "title": "Feragatnameler ve Sorumluluk Sınırı",
+      "service": {
+        "title": "Hizmet Feragatnamesi",
+        "content": "Hizmetlerimiz herhangi bir garanti olmaksızın \"olduğu gibi\" sunulmaktadır. Üretilen içeriğin doğruluğu, eksiksizliği veya kalitesi konusunda garanti vermiyoruz."
+      },
+      "liability": {
+        "title": "Sorumluluk Sınırı",
+        "content": "Yasaların izin verdiği azami ölçüde, sorumluluğumuz herhangi bir talep öncesindeki 12 ay içinde hizmetler için ödediğiniz tutarla sınırlıdır."
+      }
+    },
+    "indemnification": {
+      "title": "Tazminat",
+      "content": "Hizmetlerimizi kullanımınız, bu Koşulları ihlal etmeniz veya üçüncü taraf haklarını ihlal etmenizden doğan her türlü iddia, zarar veya masraftan bizi tazmin etmeyi ve zararsız tutmayı kabul edersiniz."
+    },
+    "termination": {
+      "title": "Fesih",
+      "content": "Bu Koşulları ihlal etmeniz veya herhangi bir nedenle bildirimsiz veya bildirimli olarak hesabınızı askıya alabilir veya feshedebiliriz. Hesap ayarlarınızdan istediğiniz zaman hesabınızı feshedebilirsiniz."
+    },
+    "governingLaw": {
+      "title": "Geçerli Hukuk ve Anlaşmazlıklar",
+      "content": "Bu Koşullar Türk hukuku tarafından yönetilir. Herhangi bir anlaşmazlık uygulanabilir olduğu durumlarda tahkim veya Türkiye mahkemeleri aracılığıyla çözümlenecektir."
+    },
+    "changes": {
+      "title": "Koşullarda Değişiklikler",
+      "content": "Bu Koşulları istediğimiz zaman değiştirebiliriz. Önemli değişiklikler hakkında bildirimde bulunacağız ve devam eden kullanımınız değiştirilmiş Koşulları kabul ettiğiniz anlamına gelir."
+    },
+    "contact": {
+      "title": "İletişim Bilgileri",
+      "intro": "Bu Koşullar hakkında sorularınız için bizimle iletişime geçin:",
+      "address": "Adres",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "subject": "Konu",
+      "subjectText": "Kullanım Koşulları Hakkında Soru"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Gizlilik Politikası",
+    "lastUpdated": "Son güncelleme",
+    "introduction": {
+      "title": "Giriş",
+      "content": "VEMLO YAZILIM BİLGİ İLETİŞİM TEKNOLOJİLERİ REKLAM PAZARLAMA LİMİTED ŞİRKETİ (\"biz\", \"bizim\" veya \"şirket\") VeeqAI platformunu işletmektedir. Bu Gizlilik Politikası yapay zeka ses hizmetlerimizi kullandığınızda bilgilerinizi nasıl topladığımızı, kullandığımızı, paylaştığımızı ve koruduğumuzu açıklar."
+    },
+    "informationWeCollect": {
+      "title": "Topladığımız Bilgiler",
+      "personal": {
+        "title": "Kişisel Bilgiler",
+        "content": "Hesap oluşturduğunuzda veya hizmetlerimizi kullandığınızda adınız, e-posta adresiniz, ödeme bilgileriniz ve hesap tercihleriniz dahil kişisel bilgilerinizi toplayabiliriz."
+      },
+      "voice": {
+        "title": "Ses Verileri",
+        "content": "AI modellerini eğitmek, sentetik konuşma üretmek veya ses klonlama özelliklerini kullanmak için sağladığınız ses kayıtlarını ve ses örneklerini toplarız. Bu veriler AI ses hizmetlerimizi sunmak için işlenir."
+      },
+      "usage": {
+        "title": "Kullanım Verileri",
+        "content": "Platformumuzla nasıl etkileşimde bulunduğunuz hakkında IP adresleri, tarayıcı bilgileri, cihaz tanımlayıcıları ve kullanım desenleri dahil bilgileri otomatik olarak toplarız."
+      }
+    },
+    "howWeUse": {
+      "title": "Bilgilerinizi Nasıl Kullanırız",
+      "item1": "AI ses hizmetlerimizi sağlar, sürdürür ve geliştiririz",
+      "item2": "Ses klonlama ve metin-konuşma isteklerini işleriz",
+      "item3": "Deneyiminizi ve önerilerinizi kişiselleştiririz",
+      "item4": "Hizmet güncellemeleri ve destek hakkında sizinle iletişim kuruyoruz",
+      "item5": "Platform güvenliğini sağlar ve dolandırıcılığı önliyoruz",
+      "item6": "Yasal yükümlülüklere uyar ve şartlarımızı uygularız"
+    },
+    "dataSharing": {
+      "title": "Veri Paylaşımı ve Açıklama",
+      "intro": "Kişisel bilgilerinizi satmıyoruz. Bilgilerinizi aşağıdaki durumlarda paylaşabiliriz:",
+      "providers": {
+        "title": "Hizmet Sağlayıcıları",
+        "content": "Hizmetlerimizi sunmada yardımcı olan üçüncü taraf satıcıları ile"
+      },
+      "legal": {
+        "title": "Yasal Gereksinimler",
+        "content": "Yasal olarak gerektiğinde veya haklarımızı ve güvenliğimizi korumak için"
+      },
+      "business": {
+        "title": "Ticari Transferler",
+        "content": "Birleşme, satın alma veya varlık satışı ile bağlantılı olarak"
+      },
+      "consent": {
+        "title": "Rıza",
+        "content": "Belirli amaçlar için açık rızanızla"
+      }
+    },
+    "dataSecurity": {
+      "title": "Veri Güvenliği",
+      "content": "Bilgilerinizi şifreleme, güvenli sunucular ve erişim kontrolleri dahil olmak üzere endüstri standardı güvenlik önlemleri ile koruyoruz. Ancak, internet üzerinden hiçbir iletim yönteminin %100 güvenli olmadığını unutmamalısınız."
+    },
+    "dataRetention": {
+      "title": "Veri Saklama",
+      "content": "Kişisel bilgilerinizi hizmetlerimizi sağlamak ve yasal yükümlülüklerimizi yerine getirmek için gerekli olduğu sürece saklarız. AI eğitimi için kullanılan ses verileri model kalitesini korumak için daha uzun süre saklanabilir."
+    },
+    "yourRights": {
+      "title": "Haklarınız",
+      "intro": "Bulunduğunuz yere bağlı olarak aşağıdaki haklara sahip olabilirsiniz:",
+      "access": "Kişisel bilgilerinize erişim ve güncelleme",
+      "delete": "Hesabınızı ve ilgili verileri silme",
+      "object": "Belirli işleme faaliyetlerine itiraz etme veya kısıtlama",
+      "portability": "Kişisel bilgileriniz için veri taşınabilirliği",
+      "withdraw": "Rızaya dayalı işlemler için rızayı geri çekme"
+    },
+    "internationalTransfers": {
+      "title": "Uluslararası Transferler",
+      "content": "Bilgileriniz kendi ülkeniz dışındaki ülkelerde işlenebilir ve saklanabilir. Uluslararası veri transferleri için uygun koruma önlemlerinin yerinde olduğundan emin oluyoruz."
+    },
+    "childrenPrivacy": {
+      "title": "Çocukların Gizliliği",
+      "content": "Hizmetlerimiz 13 yaşın altındaki çocuklara yönelik değildir. 13 yaşın altındaki çocuklardan bilerek kişisel bilgi toplamıyoruz."
+    },
+    "changes": {
+      "title": "Bu Politikadaki Değişiklikler",
+      "content": "Bu Gizlilik Politikasını periyodik olarak güncelleyebiliriz. Platformumuzda yeni politikayı yayınlayarak ve \"Son güncelleme\" tarihini güncelleyerek önemli değişiklikleri size bildireceğiz."
+    },
+    "contact": {
+      "title": "Bizimle İletişime Geçin",
+      "intro": "Bu Gizlilik Politikası veya gizlilik uygulamalarımız hakkında sorularınız varsa, lütfen bizimle iletişime geçin:",
+      "address": "Adres",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "subject": "Konu",
+      "subjectText": "Gizlilik Politikası Hakkında Soru"
+    }
+  }
+}

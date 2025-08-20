@@ -1,0 +1,586 @@
+{
+  "nav": {
+    "home": "Home",
+    "music": "Music",
+    "voiceLibrary": "Voice Library", 
+    "voiceClone": "Voice Clone",
+    "voiceDesign": "Voice Design",
+    "voiceIsolator": "Voice Isolator"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "generate": "Generate",
+    "download": "Download",
+    "new": "New",
+    "share": "Share",
+    "copy": "Copy",
+    "play": "Play",
+    "pause": "Pause",
+    "duration": "Duration",
+    "quantity": "Quantity",
+    "credits": "Credits",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "close": "Close",
+    "clear": "Clear",
+    "words": "words"
+  },
+  "auth": {
+    "welcome": "Welcome to VeeqAI",
+    "welcomeBack": "Welcome back",
+    "signIn": "Sign in to your account",
+    "signUp": "Create your account", 
+    "signInSubtitle": "Sign in to continue creating amazing audio content",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "forgotPassword": "Forgot your password?",
+    "rememberMe": "Remember me",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "namePlaceholder": "Enter your name",
+    "signingIn": "Signing In...",
+    "orContinueWith": "Or continue with",
+    "invalidCredentials": "Invalid email or password",
+    "loginFailed": "Login failed. Please try again.",
+    "heroTitle": "Transform Text to Lifelike Speech",
+    "heroSubtitle": "Create professional voiceovers, audiobooks, and podcasts with our advanced AI voice technology",
+    "feature1": "100+ Voices",
+    "feature2": "Voice Cloning", 
+    "feature3": "HD Quality",
+    "createAccount": "Create your account",
+    "startCreating": "Start creating amazing audio content today",
+    "fullName": "Full Name",
+    "createPassword": "Create a password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "creatingAccount": "Creating Account...",
+    "passwordsDontMatch": "Passwords don't match",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "registrationFailed": "Registration failed. Email might already exist.",
+    "registrationError": "Registration failed. Please try again.",
+    "brandName": "VeeqAI Audio",
+    "google": "Google",
+    "github": "GitHub",
+    "journeyTitle": "Start Your Audio Journey",
+    "journeySubtitle": "Join thousands of creators using AI to bring their content to life",
+    "naturalVoicesTitle": "Natural Voices",
+    "naturalVoicesDesc": "Choose from 100+ ultra-realistic AI voices in multiple languages",
+    "musicCreationTitle": "Music Creation",
+    "musicCreationDesc": "Generate original music tracks with AI-powered composition",
+    "voiceCloningTitle": "Voice Cloning",
+    "voiceCloningDesc": "Clone any voice with just 10 seconds of clean audio",
+    "multiLangTitle": "Multi-Language Support",
+    "multiLangDesc": "Create content in 50+ languages with native pronunciation",
+    "activeUsers": "Active Users",
+    "audioCreated": "Audio Created",
+    "languages": "Languages",
+    "agreeToTerms": "I agree to the",
+    "termsOfService": "Terms of Service",
+    "and": "and",
+    "privacyPolicy": "Privacy Policy",
+    "orSignUpWith": "Or sign up with"
+  },
+  "home": {
+    "title": "Create Lifelike Audio",
+    "textToSpeech": "Text to Speech",
+    "musicCreation": "MUSIC CREATION",
+    "placeholder": "Start typing here to create lifelike audio in multiple languages, voices and emotions with VeeqAI.",
+    "tellStory": "Tell a Story",
+    "createCommercial": "Create a Commercial",
+    "buildTutor": "Build an AI Tutor",
+    "exploreVoices": "Explore voices to match your need",
+    "discoverMusic": "Discover music to match your project",
+    "exploreMore": "Explore more",
+    "productShowcase": "Powerful AI Audio Features",
+    "productShowcaseDesc": "Discover the cutting-edge capabilities that make VeeqAI the ultimate audio platform",
+    "showcase": {
+      "voiceGeneration": "Voice Generation",
+      "voiceGenerationDesc": "Create natural, human-like voices with advanced AI technology. Generate speech in multiple languages with perfect pronunciation.",
+      "musicGeneration": "Music Generation", 
+      "musicGenerationDesc": "Compose original music tracks using AI. Create background music, jingles, and full compositions in any genre.",
+      "voiceDesign": "Voice Design",
+      "voiceDesignDesc": "Design and customize unique voices. Mix characteristics, adjust tone, and create the perfect voice for your project.",
+      "apiIntegration": "API Integration",
+      "apiIntegrationDesc": "Seamlessly integrate VeeqAI into your applications with our robust API and comprehensive developer tools.",
+      "realTimeProcessing": "Real-time Processing",
+      "realTimeProcessingDesc": "Generate audio with ultra-low latency. Perfect for live applications, streaming, and interactive experiences.",
+      "analytics": "Analytics & Insights",
+      "analyticsDesc": "Track usage, monitor performance, and gain insights into your audio generation patterns with detailed analytics."
+    },
+    "voiceSelection": "Voice Selection",
+    "library": "Library",
+    "myVoices": "My Voices",
+    "collectedVoices": "Collected Voices",
+    "language": "Language",
+    "english": "English",
+    "spanish": "Spanish",
+    "french": "French",
+    "accent": "Accent",
+    "american": "American",
+    "british": "British",
+    "australian": "Australian",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "neutral": "Neutral",
+    "age": "Age",
+    "young": "Young",
+    "adult": "Adult",
+    "senior": "Senior",
+    "use": "Use"
+  },
+  "music": {
+    "title": "Music Creation",
+    "myWork": "My Work",
+    "collection": "Collection",
+    "simple": "Simple",
+    "advanced": "Advanced",
+    "prompt": "Describe the music you want to generate...",
+    "musicDescription": "Music Description",
+    "lyrics": "Lyrics (Optional)",
+    "lyricsPlaceholder": "Enter custom lyrics or leave empty for AI generation...",
+    "stylePrompt": "Describe the music style, genre, mood...",
+    "creating": "Creating...",
+    "generating": "Generating...",
+    "noTracksYet": "No tracks created yet",
+    "startCreating": "Create your first music track",
+    "copyPrompt": "Copy Prompt",
+    "characters": "characters",
+    "tracks": "tracks",
+    "errorPromptRequired": "Please enter a music prompt",
+    "quantity": "Quantity",
+    "errorGeneratingMusic": "Failed to generate music. Please try again.",
+    "duration": {
+      "30s": "30s",
+      "1min": "1min",
+      "2min": "2min",
+      "3min": "3min",
+      "4min": "4min"
+    }
+  },
+  "voice": {
+    "library": "Voice Library",
+    "clone": "Voice Clone", 
+    "design": "Voice Design",
+    "isolator": "Voice Isolator",
+    "upload": "Upload",
+    "record": "Record",
+    "generate": "Generate Voice",
+    "preview": "Preview",
+    "sampleRate": "Sample Rate",
+    "quality": "Quality",
+    "instantClone": "Instant Clone",
+    "slotsRemaining": "Voice slots remaining: {{current}}/{{total}}",
+    "tabs": {
+      "library": "Library",
+      "myVoices": "My Voices",
+      "collectedVoices": "Collected Voices",
+      "selected": "Selected"
+    },
+    "filters": {
+      "language": "Language",
+      "accent": "Accent",
+      "gender": "Gender",
+      "age": "Age",
+      "male": "Male",
+      "female": "Female",
+      "neutral": "Neutral",
+      "young": "Young",
+      "adult": "Adult",
+      "senior": "Senior",
+      "child": "Child"
+    },
+    "moods": {
+      "calm": "Calm",
+      "excited": "Excited",
+      "sad": "Sad",
+      "angry": "Angry",
+      "neutral": "Neutral",
+      "happy": "Happy"
+    },
+    "selection": {
+      "title": "Voice Selection",
+      "changeVoice": "Change Voice",
+      "mood": "Voice Mood",
+      "selectMood": "Select mood",
+      "emotion": "Emotion",
+      "speed": "Speed",
+      "pitch": "Pitch",
+      "volume": "Volume",
+      "limitedTimeFree": "Limited-time Free",
+      "auto": "Auto",
+      "copied": "Copied!",
+      "copyId": "Copy ID",
+      "professionalModel": "Professional voice model",
+      "filterOptions": {
+        "turkish": "Turkish",
+        "english": "English",
+        "standard": "Standard",
+        "regional": "Regional",
+        "child": "Child"
+      }
+    }
+  },
+  "player": {
+    "nowPlaying": "Now Playing",
+    "playing": "Playing",
+    "previous": "Previous",
+    "next": "Next",
+    "volume": "Volume",
+    "favorite": "Favorite"
+  },
+  "textToSpeech": {
+    "title": "Text to Speech",
+    "enterText": "Enter Text",
+    "characters": "characters",
+    "placeholder": "Type or paste your text here...",
+    "settings": "Settings",
+    "voice": "Voice",
+    "model": "Voice",
+    "language": "Language",
+    "speed": "Speed",
+    "pitch": "Pitch",
+    "volume": "Volume",
+    "creditsRequired": "Credits Required",
+    "credits": "credits",
+    "availableCredits": "Available Credits",
+    "generateSpeech": "Generate Speech",
+    "generating": "Generating...",
+    "pleaseEnterTextAndSelectVoice": "Please enter text and select voice",
+    "speechGenerationFailed": "Speech generation failed",
+    "fileUpload": "File upload",
+    "uploadDocument": "Upload a document",
+    "clickOrDragUpload": "Click or drag to upload here.",
+    "fileFormats": ".pdf, .txt, .html, .docx; up to 50MB, 200,000 characters.",
+    "speechHistory": "Speech History",
+    "items": "items",
+    "searchHistory": "Search history...",
+    "all": "All",
+    "today": "Today",
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "hoursAgo": "hours ago",
+    "yesterday": "Yesterday",
+    "showing": "Showing",
+    "of": "of",
+    "clearAll": "Clear All"
+  },
+  "voiceDesign": {
+    "subtitle": "Design entirely new voices from text description",
+    "prompt": "Prompt",
+    "textToPreview": "Text to Preview",
+    "autoGenerate": "Auto-generate",
+    "voiceSlotsRemaining": "Voice slots remaining",
+    "resultsPlaceholder": "Generated voice results will appear here",
+    "examplePrompt": "e.g Excited and enthusiastic male tech vlogger, fast-paced, high energy, and persuasive.",
+    "defaultPreviewText": "This voice is generated by VeeqAI's latest voice design model.",
+    "classicNarrator": "Classic Narrator",
+    "radioDJ": "Radio DJ",
+    "audiobookReader": "Audiobook Reader",
+    "gruffDetective": "Gruff Detective",
+    "excitedReviewer": "Excited Reviewer"
+  },
+  "voiceClone": {
+    "subtitle": "Clone a voice using as little as a 10-second clean voice clip.",
+    "importVoice": "Import your Voice",
+    "addDropFile": "Add or drop a file",
+    "fileSize": "Up to 20MB each",
+    "recordDuration": "10-60 seconds long",
+    "uploadedSamples": "Uploaded Samples",
+    "infoText1": "Please upload a clean voice recording in a quiet environment. Reverb, multiple speakers, background noise, etc., will affect the voice cloning quality.",
+    "infoText2": "You can use the noise separation feature to reduce audio noise, but this may also impact the detail of the voice. Therefore, it is recommended to choose the best-quality segment when selecting the material for cloning.",
+    "advancedSettings": "Advanced Settings (Optional)",
+    "removeBackgroundNoise": "Remove Background Noise",
+    "enableAccentOptimization": "Enable Accent Optimization",
+    "defaultPreviewText": "Hello, I'm delighted to assist you with our voice services. Choose a voice that resonates with you, and let's begin our creative audio journey together",
+    "german": "German",
+    "chinese": "Chinese",
+    "japanese": "Japanese",
+    "korean": "Korean",
+    "arabic": "Arabic"
+  },
+  "voiceIsolator": {
+    "subtitle": "Isolate background noise to get pure speech audio for better quality.",
+    "uploadDescription": "Add or drop an audio or video file, up to 500MB and 300 seconds.",
+    "uploadAudio": "Upload Audio"
+  },
+  "sidebar": {
+    "aiGeneration": "AI Generation",
+    "aiTools": "AI Tools",
+    "subscribe": "Subscribe",
+    "accessAPI": "Access API",
+    "aboutVeeqAI": "About VeeqAI",
+    "beta": "Beta",
+    "new": "New"
+  },
+  "header": {
+    "upgrade": "Upgrade",
+    "subscription": "Subscription",
+    "free": "Free",
+    "pro": "Pro",
+    "enterprise": "Enterprise"
+  },
+  "settings": {
+    "language": "Language",
+    "theme": "Theme",
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System",
+    "title": "Settings",
+    "subtitle": "Manage your account settings and preferences",
+    "profileSettings": "Profile Settings",
+    "passwordSettings": "Password Settings",
+    "themeSettings": "Theme Settings",
+    "updateProfile": "Update Profile",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "profileUpdateSuccess": "Profile updated successfully",
+    "profileUpdateError": "Failed to update profile",
+    "passwordChangeSuccess": "Password changed successfully",
+    "passwordChangeError": "Failed to change password"
+  },
+  "pricing": {
+    "title": "Choose Your Plan",
+    "subtitle": "Unlock the full potential of AI-powered audio creation with our flexible pricing plans",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "save20": "Save 20%",
+    "limitedTime": "Limited-time",
+    "monthBilledAnnually": "month billed annually",
+    "year": "year",
+    "month": "month",
+    "saveAnnually": "Save {{discount}}% annually",
+    "creditsPerMonth": "credits per month",
+    "currentPlan": "Current Plan",
+    "getStartedFree": "Get Started Free",
+    "upgradeTo": "Upgrade to {{plan}}",
+    "subscriptionComingSoon": "Subscription functionality will be implemented soon!",
+    "plans": {
+      "free": "Free",
+      "starter": "Starter",
+      "creator": "Creator",
+      "pro": "Pro",
+      "enterprise": "Enterprise"
+    },
+    "features": {
+      "textToSpeech": "Lifelike Text-to-Speech",
+      "textToSpeechDesc": "Natural voices with emotional awareness ({{rate}} credits/char)",
+      "musicGeneration": "AI Music Generation",
+      "musicGenerationDesc": "Create custom music from text prompts ({{rate}} credits/30s)",
+      "voiceCloning": "Voice Cloning",
+      "voiceCloningDesc": "Clone any voice with just a few minutes of audio ({{rate}} credits/voice)",
+      "voiceIsolator": "Voice Isolator",
+      "voiceIsolatorDesc": "Separate vocals from background audio ({{rate}} credits/min)",
+      "apiAccess": "API Access",
+      "apiAccessDesc": "Integrate AI audio into your applications",
+      "commercialLicense": "Commercial License",
+      "commercialLicenseDesc": "Use generated content for commercial purposes"
+    }
+  },
+  "termsOfService": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated",
+    "agreement": {
+      "title": "Agreement to Terms",
+      "content": "These Terms of Service (\"Terms\") constitute a legally binding agreement between you and VEMLO YAZILIM BİLGİ İLETİŞİM TEKNOLOJİLERİ REKLAM PAZARLAMA LİMİTED ŞİRKETİ (\"Company,\" \"we,\" \"us,\" or \"our\") regarding your use of the VeeqAI platform and services. By accessing or using our services, you agree to be bound by these Terms."
+    },
+    "services": {
+      "title": "Description of Services",
+      "intro": "VeeqAI provides artificial intelligence-powered voice services including:",
+      "tts": "Text-to-speech conversion with synthetic voices",
+      "cloning": "Voice cloning and custom voice generation",
+      "music": "Music generation and audio processing",
+      "isolation": "Voice isolation and audio enhancement",
+      "api": "API access for developers and enterprises"
+    },
+    "account": {
+      "title": "Account Registration and Security",
+      "responsibility": "You must create an account to access certain features. You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account.",
+      "accuracy": "You must provide accurate and complete information during registration and keep your account information updated."
+    },
+    "acceptableUse": {
+      "title": "Acceptable Use Policy",
+      "intro": "You agree NOT to use our services to:",
+      "laws": "Create content that violates any laws or regulations",
+      "consent": "Generate voices without proper consent from the voice owner",
+      "misleading": "Create misleading, defamatory, or fraudulent content",
+      "impersonate": "Impersonate others or misrepresent your identity",
+      "harassment": "Generate content for harassment, bullying, or threats",
+      "intellectual": "Violate intellectual property rights of third parties",
+      "reverse": "Attempt to reverse engineer or hack our systems",
+      "resell": "Share or resell access to our services without authorization"
+    },
+    "rights": {
+      "title": "Voice Data and Content Rights",
+      "yourContent": {
+        "title": "Your Content",
+        "content": "You retain ownership of any original content you provide, but you grant us a license to process, store, and use your content to provide our services."
+      },
+      "generated": {
+        "title": "Generated Content",
+        "content": "Content generated using our AI services is subject to our usage policies. You are responsible for ensuring you have proper rights and permissions for any voice data you use."
+      },
+      "voiceConsent": {
+        "title": "Voice Consent",
+        "content": "You must obtain explicit consent before cloning or using someone else's voice. We may require proof of consent for certain uses."
+      }
+    },
+    "payment": {
+      "title": "Payment and Billing",
+      "credits": "Our services operate on a credit-based system. You can purchase credits or subscribe to plans as outlined on our pricing page.",
+      "processing": "All payments are processed securely through third-party payment processors. Refunds are subject to our refund policy.",
+      "pricing": "We reserve the right to modify pricing with 30 days' notice to existing users."
+    },
+    "availability": {
+      "title": "Service Availability and Performance",
+      "content": "While we strive for high availability, we do not guarantee uninterrupted access to our services. We may perform maintenance, updates, or experience technical issues that temporarily affect service availability."
+    },
+    "intellectualProperty": {
+      "title": "Intellectual Property",
+      "content": "The VeeqAI platform, including software, algorithms, and user interfaces, is protected by intellectual property laws. You may not copy, modify, distribute, or create derivative works without our permission."
+    },
+    "privacy": {
+      "title": "Privacy and Data Protection",
+      "content": "Our collection and use of your information is governed by our Privacy Policy. By using our services, you consent to our data practices as described in the Privacy Policy."
+    },
+    "disclaimers": {
+      "title": "Disclaimers and Limitation of Liability",
+      "service": {
+        "title": "Service Disclaimer",
+        "content": "Our services are provided \"as is\" without warranties of any kind. We do not guarantee the accuracy, completeness, or quality of generated content."
+      },
+      "liability": {
+        "title": "Limitation of Liability",
+        "content": "To the maximum extent permitted by law, our liability is limited to the amount you paid for services in the 12 months preceding any claim."
+      }
+    },
+    "indemnification": {
+      "title": "Indemnification",
+      "content": "You agree to indemnify and hold us harmless from any claims, damages, or expenses arising from your use of our services, violation of these Terms, or infringement of third-party rights."
+    },
+    "termination": {
+      "title": "Termination",
+      "content": "We may suspend or terminate your account at any time for violation of these Terms or for any other reason with or without notice. You may terminate your account at any time through your account settings."
+    },
+    "governingLaw": {
+      "title": "Governing Law and Disputes",
+      "content": "These Terms are governed by Turkish law. Any disputes shall be resolved through arbitration or in the courts of Turkey, as applicable."
+    },
+    "changes": {
+      "title": "Changes to Terms",
+      "content": "We may modify these Terms at any time. We will provide notice of significant changes and your continued use constitutes acceptance of the modified Terms."
+    },
+    "contact": {
+      "title": "Contact Information",
+      "intro": "For questions about these Terms, please contact us:",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "subject": "Subject",
+      "subjectText": "Terms of Service Inquiry"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated",
+    "introduction": {
+      "title": "Introduction",
+      "content": "VEMLO YAZILIM BİLGİ İLETİŞİM TEKNOLOJİLERİ REKLAM PAZARLAMA LİMİTED ŞİRKETİ (\"we,\" \"us,\" or \"our\") operates the VeeqAI platform. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our artificial intelligence voice services."
+    },
+    "informationWeCollect": {
+      "title": "Information We Collect",
+      "personal": {
+        "title": "Personal Information",
+        "content": "When you create an account or use our services, we may collect personal information including your name, email address, payment information, and account preferences."
+      },
+      "voice": {
+        "title": "Voice Data",
+        "content": "We collect audio recordings and voice samples that you provide to train AI models, generate synthetic speech, or use voice cloning features. This data is processed to provide our AI voice services."
+      },
+      "usage": {
+        "title": "Usage Data",
+        "content": "We automatically collect information about how you interact with our platform, including IP addresses, browser information, device identifiers, and usage patterns."
+      }
+    },
+    "howWeUse": {
+      "title": "How We Use Your Information",
+      "item1": "Provide, maintain, and improve our AI voice services",
+      "item2": "Process voice cloning and text-to-speech requests",
+      "item3": "Personalize your experience and recommendations",
+      "item4": "Communicate with you about service updates and support",
+      "item5": "Ensure platform security and prevent fraud",
+      "item6": "Comply with legal obligations and enforce our terms"
+    },
+    "dataSharing": {
+      "title": "Data Sharing and Disclosure",
+      "intro": "We do not sell your personal information. We may share your information in the following circumstances:",
+      "providers": {
+        "title": "Service Providers",
+        "content": "With third-party vendors who assist in providing our services"
+      },
+      "legal": {
+        "title": "Legal Requirements",
+        "content": "When required by law or to protect our rights and safety"
+      },
+      "business": {
+        "title": "Business Transfers",
+        "content": "In connection with mergers, acquisitions, or asset sales"
+      },
+      "consent": {
+        "title": "Consent",
+        "content": "With your explicit consent for specific purposes"
+      }
+    },
+    "dataSecurity": {
+      "title": "Data Security",
+      "content": "We implement industry-standard security measures to protect your information, including encryption, secure servers, and access controls. However, no method of transmission over the internet is 100% secure."
+    },
+    "dataRetention": {
+      "title": "Data Retention",
+      "content": "We retain your personal information for as long as necessary to provide our services and comply with legal obligations. Voice data used for AI training may be retained longer to maintain model quality."
+    },
+    "yourRights": {
+      "title": "Your Rights",
+      "intro": "Depending on your location, you may have the right to:",
+      "access": "Access and update your personal information",
+      "delete": "Delete your account and associated data",
+      "object": "Object to or restrict certain processing activities",
+      "portability": "Data portability for your personal information",
+      "withdraw": "Withdraw consent where processing is based on consent"
+    },
+    "internationalTransfers": {
+      "title": "International Transfers",
+      "content": "Your information may be processed and stored in countries other than your own. We ensure appropriate safeguards are in place for international data transfers."
+    },
+    "childrenPrivacy": {
+      "title": "Children's Privacy",
+      "content": "Our services are not intended for children under 13. We do not knowingly collect personal information from children under 13 years of age."
+    },
+    "changes": {
+      "title": "Changes to This Policy",
+      "content": "We may update this Privacy Policy periodically. We will notify you of significant changes by posting the new policy on our platform and updating the \"Last updated\" date."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "intro": "If you have questions about this Privacy Policy or our privacy practices, please contact us at:",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "subject": "Subject",
+      "subjectText": "Privacy Policy Inquiry"
+    }
+  }
+}
