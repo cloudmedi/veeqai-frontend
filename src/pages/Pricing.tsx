@@ -3,7 +3,6 @@ import { Check, ChevronDown } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/contexts/AuthContext'
 import { apiClient } from '@/lib/api-client'
-import io from 'socket.io-client'
 
 interface Plan {
   _id: string
@@ -45,27 +44,7 @@ export default function PricingPage() {
 
   useEffect(() => {
     fetchPlans()
-    
-    // WebSocket connection for real-time updates
-    const token = localStorage.getItem('veeqai_token')
-    if (token) {
-      const socket = io(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}`, {
-        auth: { token }
-      })
-      
-      socket.on('plan_updated', (_data) => {
-        // Refresh plans when any plan changes
-        fetchPlans()
-      })
-      
-      socket.on('connect_error', (error) => {
-        console.error('WebSocket connection error:', error)
-      })
-      
-      return () => {
-        socket.disconnect()
-      }
-    }
+    // WebSocket connection removed - not needed for pricing page
   }, [])
 
   const fetchPlans = async () => {
