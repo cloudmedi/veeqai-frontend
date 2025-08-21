@@ -80,13 +80,22 @@ export default function PricingPage() {
     }
   }
 
-  const formatCredits = (credits: number) => {
-    if (credits >= 1000000) {
-      return `${(credits / 1000000).toFixed(1)}M`
+  const formatUsage = (credits: number, planName: string) => {
+    // Convert credits to service package names
+    if (planName.toLowerCase() === 'free') {
+      return t('common.limited') || 'Limited'
+    } else if (credits >= 1000000) {
+      return t('common.unlimited') || 'Unlimited'
+    } else if (credits >= 500000) {
+      return i18n.language === 'tr' ? 'Geniş Paket' : 'Premium Package'
+    } else if (credits >= 100000) {
+      return i18n.language === 'tr' ? 'İleri Paket' : 'Advanced Package'
+    } else if (credits >= 10000) {
+      return i18n.language === 'tr' ? 'Standart Paket' : 'Standard Package'
     } else if (credits >= 1000) {
-      return `${(credits / 1000).toFixed(0)}K`
+      return i18n.language === 'tr' ? 'Başlangıç Paketi' : 'Starter Package'
     }
-    return credits.toString()
+    return i18n.language === 'tr' ? 'Sınırlı Paket' : 'Limited Package'
   }
 
   // Translate plan names based on current language
@@ -114,22 +123,22 @@ export default function PricingPage() {
     return featureTranslations[feature] || feature
   }
 
-  // Translate feature descriptions
-  const translateFeatureDesc = (desc: string, rates?: any) => {
-    if (desc.includes('Natural voices')) {
-      return t('pricing.features.textToSpeechDesc', { rate: rates?.tts || 1 })
-    } else if (desc.includes('Create custom music')) {
-      return t('pricing.features.musicGenerationDesc', { rate: rates?.music?.per30Seconds || 200 })
-    } else if (desc.includes('Clone any voice')) {
-      return t('pricing.features.voiceCloningDesc', { rate: rates?.voiceClone?.creation || 2000 })
-    } else if (desc.includes('Separate vocals')) {
-      return t('pricing.features.voiceIsolatorDesc', { rate: rates?.voiceIsolator?.perMinute || 100 })
-    } else if (desc.includes('Integrate AI audio')) {
+  // Translate service descriptions using i18n
+  const translateServiceDesc = (service: string, _plan: Plan) => {
+    if (service.includes('text-to-speech')) {
+      return t('pricing.features.textToSpeechDesc')
+    } else if (service.includes('music-generation')) {
+      return t('pricing.features.musicGenerationDesc')
+    } else if (service.includes('voice-cloning')) {
+      return t('pricing.features.voiceCloningDesc')
+    } else if (service.includes('voice-isolator')) {
+      return t('pricing.features.voiceIsolatorDesc')
+    } else if (service.includes('api-access')) {
       return t('pricing.features.apiAccessDesc')
-    } else if (desc.includes('commercial purposes')) {
+    } else if (service.includes('commercial')) {
       return t('pricing.features.commercialLicenseDesc')
     }
-    return desc
+    return service
   }
 
   // const getPlanIcon = (planName: string) => {
@@ -149,11 +158,43 @@ export default function PricingPage() {
 
   const handleSubscribe = async (planId: string) => {
     try {
-      // TODO: Implement subscription logic
-      console.log('Subscribe to plan:', planId)
-      alert(t('pricing.subscriptionComingSoon'))
-    } catch (error) {
-      console.error('Subscription failed:', error)
+      // Check if user is logged in
+      if (!user) {
+        // Redirect to login page
+        window.location.href = '/login'
+        return
+      }
+
+      console.log('Initiating payment for plan:', planId)
+      
+      // Call payment initiate API
+      const response = await apiClient.post('/payment/initiate', {
+        planId,
+        billingInfo: {
+          contactName: user.name,
+          city: 'Istanbul',
+          country: 'Turkey',
+          address: 'Address',
+          zipCode: '34000'
+        }
+      }) as any
+
+      if (response.success && response.data.paymentPageUrl) {
+        // Redirect to Iyzico payment page
+        console.log('Redirecting to payment page:', response.data.paymentPageUrl)
+        window.location.href = response.data.paymentPageUrl
+      } else {
+        throw new Error(response.message || 'Payment initialization failed')
+      }
+
+    } catch (error: any) {
+      console.error('Payment initiation failed:', error)
+      console.error('Error details:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status
+      })
+      alert(`Payment could not be initiated. Error: ${error.message || 'Unknown error'}`)
     }
   }
 
@@ -196,20 +237,20 @@ export default function PricingPage() {
     } else {
       return [
         {
-          question: 'What are credits and how do they work?',
-          answer: 'Credits are our usage-based currency. Each AI feature consumes credits: Text-to-Speech uses 1 credit per character, Music Generation uses 200 credits per 30 seconds, Voice Cloning uses 2,000 credits to create a voice model, and Voice Isolator uses 100 credits per minute.'
+          question: 'What services are included in each plan?',
+          answer: 'Each plan includes different AI services: Text-to-Speech service for converting text to natural speech, Music Generation for creating custom tracks, Voice Cloning for replicating voices, and Voice Isolator for separating vocals from audio. Usage limits vary by plan.'
         },
         {
-          question: 'Do unused credits roll over to the next month?',
-          answer: 'Yes! Unused credits automatically roll over to the next billing cycle. You can accumulate up to 3 months worth of credits, giving you flexibility in how you use VeeqAI.'
+          question: 'Do unused services roll over to the next month?',
+          answer: 'Yes! Unused service allowances automatically roll over to the next billing cycle. You can accumulate up to 3 months of usage, giving you flexibility in how you use VeeqAI.'
         },
         {
           question: 'Can I cancel my subscription anytime?',
-          answer: 'Absolutely! You can cancel your subscription at any time from your account settings. Your plan will remain active until the end of your current billing period, and you\'ll keep all unused credits.'
+          answer: 'Absolutely! You can cancel your subscription at any time from your account settings. Your plan will remain active until the end of your current billing period, and you\'ll keep all unused service allowances.'
         },
         {
           question: 'What\'s the difference between monthly and yearly billing?',
-          answer: 'Yearly billing gives you a 20% discount and is billed once per year. Monthly billing is charged every month. Both options include the same features and credit allocations.'
+          answer: 'Yearly billing gives you a 20% discount and is billed once per year. Monthly billing is charged every month. Both options include the same features and service allowances.'
         },
         {
           question: 'Do you offer refunds?',
@@ -356,10 +397,10 @@ export default function PricingPage() {
                   <div className="text-center mb-8 h-24 flex items-center justify-center">
                     <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg p-4 w-full flex flex-col justify-center min-h-[80px]">
                       <div className="text-3xl font-bold tracking-tight text-primary mb-1 min-w-[60px] flex items-center justify-center">
-                        {formatCredits(plan.credits.monthly)}
+                        {formatUsage(plan.credits.monthly, plan.name)}
                       </div>
                       <div className="text-sm font-medium tracking-wide text-gray-600 dark:text-gray-400 leading-relaxed">
-                        {t('pricing.creditsPerMonth')}
+                        {billingCycle === 'yearly' ? (i18n.language === 'tr' ? 'Yıllık Hizmetler' : 'Yearly Services') : (i18n.language === 'tr' ? 'Aylık Hizmetler' : 'Monthly Services')}
                       </div>
                     </div>
                   </div>
@@ -374,7 +415,7 @@ export default function PricingPage() {
                             {translateFeature('Lifelike Text-to-Speech')}
                           </div>
                           <div className="text-gray-600 dark:text-gray-400 text-xs font-medium tracking-wide leading-relaxed">
-                            {translateFeatureDesc('Natural voices', plan.credits.rates)}
+                            {translateServiceDesc('text-to-speech', plan)}
                           </div>
                         </div>
                       </div>
@@ -387,7 +428,7 @@ export default function PricingPage() {
                             {translateFeature('AI Music Generation')}
                           </div>
                           <div className="text-gray-600 dark:text-gray-400 text-xs font-medium tracking-wide leading-relaxed">
-                            {translateFeatureDesc('Create custom music', plan.credits.rates)}
+                            {translateServiceDesc('music-generation', plan)}
                           </div>
                         </div>
                       </div>
@@ -400,7 +441,7 @@ export default function PricingPage() {
                             {translateFeature('Voice Cloning')}
                           </div>
                           <div className="text-gray-600 dark:text-gray-400 text-xs font-medium tracking-wide leading-relaxed">
-                            {translateFeatureDesc('Clone any voice', plan.credits.rates)}
+                            {translateServiceDesc('voice-cloning', plan)}
                           </div>
                         </div>
                       </div>
@@ -413,7 +454,7 @@ export default function PricingPage() {
                             {translateFeature('Voice Isolator')}
                           </div>
                           <div className="text-gray-600 dark:text-gray-400 text-xs font-medium tracking-wide leading-relaxed">
-                            {translateFeatureDesc('Separate vocals', plan.credits.rates)}
+                            {translateServiceDesc('voice-isolator', plan)}
                           </div>
                         </div>
                       </div>
@@ -426,7 +467,7 @@ export default function PricingPage() {
                             {translateFeature('API Access')}
                           </div>
                           <div className="text-gray-600 dark:text-gray-400 text-xs font-medium tracking-wide leading-relaxed">
-                            {translateFeatureDesc('Integrate AI audio')}
+                            {translateServiceDesc('api-access', plan)}
                           </div>
                         </div>
                       </div>
@@ -439,7 +480,7 @@ export default function PricingPage() {
                             {translateFeature('Commercial License')}
                           </div>
                           <div className="text-gray-600 dark:text-gray-400 text-xs font-medium tracking-wide leading-relaxed">
-                            {translateFeatureDesc('commercial purposes')}
+                            {translateServiceDesc('commercial', plan)}
                           </div>
                         </div>
                       </div>

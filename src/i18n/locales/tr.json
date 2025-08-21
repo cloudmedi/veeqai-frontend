@@ -252,9 +252,9 @@
     "speed": "Hız",
     "pitch": "Perde",
     "volume": "Ses Seviyesi",
-    "creditsRequired": "Gerekli Kredi",
-    "credits": "kredi",
-    "availableCredits": "Kullanılabilir Kredi",
+    "creditsRequired": "Gerekli Hizmet",
+    "credits": "hizmet",
+    "availableCredits": "Kullanılabilir Hizmet",
     "generateSpeech": "Ses Oluştur",
     "generating": "Üretiliyor...",
     "pleaseEnterTextAndSelectVoice": "Lütfen metin girin ve ses seçin",
@@ -363,7 +363,7 @@
     "year": "yıl",
     "month": "ay",
     "saveAnnually": "Yıllık %{{discount}} tasarruf",
-    "creditsPerMonth": "aylık kredi",
+    "creditsPerMonth": "aylık hizmet",
     "currentPlan": "Mevcut Plan",
     "getStartedFree": "Ücretsiz Başla",
     "upgradeTo": "{{plan}} Planına Yükselt",
@@ -377,17 +377,17 @@
     },
     "features": {
       "textToSpeech": "Gerçekçi Metin Seslendirme",
-      "textToSpeechDesc": "Duygusal farkındalığa sahip doğal sesler ({{rate}} kredi/karakter)",
+      "textToSpeechDesc": "Duygusal farkındalığa sahip doğal ses üretim hizmeti",
       "musicGeneration": "AI Müzik Üretimi",
-      "musicGenerationDesc": "Metin açıklamalarından özel müzik oluşturun ({{rate}} kredi/30s)",
+      "musicGenerationDesc": "Metin açıklamalarından özel müzik oluşturma hizmeti",
       "voiceCloning": "Ses Klonlama",
-      "voiceCloningDesc": "Birkaç dakikalık ses kaydıyla herhangi bir sesi klonlayın ({{rate}} kredi/ses)",
+      "voiceCloningDesc": "Profesyonel ses kopyalama hizmeti",
       "voiceIsolator": "Ses Ayırıcı",
-      "voiceIsolatorDesc": "Vokalleri arka plan sesinden ayırın ({{rate}} kredi/dakika)",
+      "voiceIsolatorDesc": "Vokal ayrıştırma ve ses geliştirme hizmeti",
       "apiAccess": "API Erişimi",
-      "apiAccessDesc": "AI ses teknolojisini uygulamalarınıza entegre edin",
+      "apiAccessDesc": "Geliştiriciler için API entegrasyon hizmeti",
       "commercialLicense": "Ticari Lisans",
-      "commercialLicenseDesc": "Üretilen içerikleri ticari amaçlarla kullanın"
+      "commercialLicenseDesc": "Tüm üretilen içerikler için ticari kullanım hakları"
     }
   },
   "termsOfService": {
@@ -440,7 +440,7 @@
     },
     "payment": {
       "title": "Ödeme ve Faturalama",
-      "credits": "Hizmetlerimiz kredi tabanlı sistem üzerinde çalışır. Fiyatlandırma sayfamızda belirtildiği gibi kredi satın alabilir veya planlara abone olabilirsiniz.",
+      "credits": "Hizmetlerimiz paket tabanlı sistem üzerinde çalışır. Fiyatlandırma sayfamızda belirtildiği gibi hizmet paketleri satın alabilir veya planlara abone olabilirsiniz.",
       "processing": "Tüm ödemeler üçüncü taraf ödeme işlemcileri aracılığıyla güvenli bir şekilde işlenir. İadeler iade politikamıza tabidir.",
       "pricing": "Mevcut kullanıcılara 30 gün önceden haber vererek fiyatlandırmayı değiştirme hakkını saklı tutarız."
     },

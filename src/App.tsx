@@ -16,6 +16,8 @@ import LoginPage from "@/pages/Login"
 import RegisterPage from "@/pages/Register"
 import TextToSpeechPage from "@/pages/text-to-speech"
 import PricingPage from "@/pages/Pricing"
+import PaymentSuccess from "@/pages/payment/PaymentSuccess"
+import PaymentFailed from "@/pages/payment/PaymentFailed"
 
 // Language router component to sync URL with i18n language
 function LanguageRouter() {
@@ -48,9 +50,17 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             
+            {/* Payment Routes - No Layout (English) */}
+            <Route path="/payment/success" element={<PaymentSuccess />} />
+            <Route path="/payment/failed" element={<PaymentFailed />} />
+            
             {/* Auth Routes - No Layout (Turkish) */}
             <Route path="/tr/login" element={<LoginPage />} />
             <Route path="/tr/register" element={<RegisterPage />} />
+            
+            {/* Payment Routes - No Layout (Turkish) */}
+            <Route path="/tr/payment/success" element={<PaymentSuccess />} />
+            <Route path="/tr/payment/failed" element={<PaymentFailed />} />
             
             {/* App Routes - With Layout (English - Default) - PROTECTED */}
             <Route element={

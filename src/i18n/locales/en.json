@@ -25,7 +25,7 @@
     "pause": "Pause",
     "duration": "Duration",
     "quantity": "Quantity",
-    "credits": "Credits",
+    "credits": "Services",
     "login": "Login",
     "register": "Register",
     "logout": "Logout",
@@ -252,9 +252,9 @@
     "speed": "Speed",
     "pitch": "Pitch",
     "volume": "Volume",
-    "creditsRequired": "Credits Required",
-    "credits": "credits",
-    "availableCredits": "Available Credits",
+    "creditsRequired": "Service Required",
+    "credits": "service units",
+    "availableCredits": "Available Services",
     "generateSpeech": "Generate Speech",
     "generating": "Generating...",
     "pleaseEnterTextAndSelectVoice": "Please enter text and select voice",
@@ -363,7 +363,7 @@
     "year": "year",
     "month": "month",
     "saveAnnually": "Save {{discount}}% annually",
-    "creditsPerMonth": "credits per month",
+    "creditsPerMonth": "monthly services",
     "currentPlan": "Current Plan",
     "getStartedFree": "Get Started Free",
     "upgradeTo": "Upgrade to {{plan}}",
@@ -377,17 +377,17 @@
     },
     "features": {
       "textToSpeech": "Lifelike Text-to-Speech",
-      "textToSpeechDesc": "Natural voices with emotional awareness ({{rate}} credits/char)",
+      "textToSpeechDesc": "Natural voice generation service with emotional awareness",
       "musicGeneration": "AI Music Generation",
-      "musicGenerationDesc": "Create custom music from text prompts ({{rate}} credits/30s)",
+      "musicGenerationDesc": "Custom music creation service from text prompts",
       "voiceCloning": "Voice Cloning",
-      "voiceCloningDesc": "Clone any voice with just a few minutes of audio ({{rate}} credits/voice)",
+      "voiceCloningDesc": "Professional voice replication service",
       "voiceIsolator": "Voice Isolator",
-      "voiceIsolatorDesc": "Separate vocals from background audio ({{rate}} credits/min)",
+      "voiceIsolatorDesc": "Vocal separation and audio enhancement service",
       "apiAccess": "API Access",
-      "apiAccessDesc": "Integrate AI audio into your applications",
+      "apiAccessDesc": "API integration service for developers",
       "commercialLicense": "Commercial License",
-      "commercialLicenseDesc": "Use generated content for commercial purposes"
+      "commercialLicenseDesc": "Commercial usage rights for all generated content"
     }
   },
   "termsOfService": {
@@ -440,7 +440,7 @@
     },
     "payment": {
       "title": "Payment and Billing",
-      "credits": "Our services operate on a credit-based system. You can purchase credits or subscribe to plans as outlined on our pricing page.",
+      "credits": "Our services operate on a package-based system. You can purchase service packages or subscribe to plans as outlined on our pricing page.",
       "processing": "All payments are processed securely through third-party payment processors. Refunds are subject to our refund policy.",
       "pricing": "We reserve the right to modify pricing with 30 days' notice to existing users."
     },
