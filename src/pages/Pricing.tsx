@@ -70,9 +70,9 @@ export default function PricingPage() {
 
   const fetchPlans = async () => {
     try {
-      const response = await apiClient.get('/auth/plans')
-      // apiClient returns array directly, not wrapped in { data: ... }
-      setPlans((response as Plan[]) || [])
+      const response = await apiClient.get('/payment/plans')
+      // Extract plans from response.plans (new structure)
+      setPlans((response as any)?.plans || [])
     } catch (error) {
       console.error('Failed to fetch plans:', error)
     } finally {
