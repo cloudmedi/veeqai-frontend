@@ -5,7 +5,8 @@ import { useAuth } from '@/contexts/AuthContext'
 import { apiClient } from '@/lib/api-client'
 
 interface Plan {
-  _id: string
+  _id?: string
+  id?: string  // Backend sends 'id' instead of '_id'
   name: string
   displayName: string
   description: string
@@ -13,26 +14,27 @@ interface Plan {
     monthly: { amount: number; currency: string }
     yearly?: { amount: number; currency: string; discount?: number }
   }
-  credits: {
+  credits?: {
     monthly: number
-    rates: {
+    rates?: {
       tts: number
       music: { per30Seconds: number; per60Seconds: number }
       voiceClone: { creation: number; usage: number }
       voiceIsolator: { perMinute: number }
     }
   }
-  features: { [key: string]: boolean }
-  display: {
-    order: number
-    featured: boolean
-    popular: boolean
+  features?: { [key: string]: boolean }
+  display?: {  // Optional since backend doesn't always send it
+    order?: number
+    featured?: boolean
+    popular?: boolean
     badge?: string
-    color: string
-    icon: string
+    color?: string
+    icon?: string
   }
-  status: 'active' | 'inactive' | 'deprecated'
-  target: 'individual' | 'team' | 'enterprise' | 'all'
+  isPopular?: boolean  // Backend sends this directly
+  status?: 'active' | 'inactive' | 'deprecated'
+  target?: 'individual' | 'team' | 'enterprise' | 'all'
 }
 
 export default function PricingPage() {
@@ -378,7 +380,7 @@ export default function PricingPage() {
                   <div className="text-center mb-8 h-24 flex items-center justify-center">
                     <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg p-4 w-full flex flex-col justify-center min-h-[80px]">
                       <div className="text-3xl font-bold tracking-tight text-primary mb-1 min-w-[60px] flex items-center justify-center">
-                        {formatUsage(plan.credits.monthly, plan.name)}
+                        {formatUsage(plan.credits?.monthly || 0, plan.name)}
                       </div>
                       <div className="text-sm font-medium tracking-wide text-gray-600 dark:text-gray-400 leading-relaxed">
                         {billingCycle === 'yearly' ? (i18n.language === 'tr' ? 'Yıllık Hizmetler' : 'Yearly Services') : (i18n.language === 'tr' ? 'Aylık Hizmetler' : 'Monthly Services')}
@@ -388,7 +390,7 @@ export default function PricingPage() {
 
                   {/* Features */}
                   <div className="space-y-3 mb-8 flex-grow">
-                    {plan.features.textToSpeech && (
+                    {plan.features?.textToSpeech && (
                       <div className="flex items-start">
                         <Check className="w-4 h-4 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
                         <div>
@@ -401,7 +403,7 @@ export default function PricingPage() {
                         </div>
                       </div>
                     )}
-                    {plan.features.musicGeneration && (
+                    {plan.features?.musicGeneration && (
                       <div className="flex items-start">
                         <Check className="w-4 h-4 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
                         <div>
@@ -414,7 +416,7 @@ export default function PricingPage() {
                         </div>
                       </div>
                     )}
-                    {plan.features.voiceCloning && (
+                    {plan.features?.voiceCloning && (
                       <div className="flex items-start">
                         <Check className="w-4 h-4 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
                         <div>
@@ -427,7 +429,7 @@ export default function PricingPage() {
                         </div>
                       </div>
                     )}
-                    {plan.features.voiceIsolator && (
+                    {plan.features?.voiceIsolator && (
                       <div className="flex items-start">
                         <Check className="w-4 h-4 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
                         <div>
@@ -440,7 +442,7 @@ export default function PricingPage() {
                         </div>
                       </div>
                     )}
-                    {plan.features.apiAccess && (
+                    {plan.features?.apiAccess && (
                       <div className="flex items-start">
                         <Check className="w-4 h-4 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
                         <div>
@@ -453,7 +455,7 @@ export default function PricingPage() {
                         </div>
                       </div>
                     )}
-                    {plan.features.commercialLicense && (
+                    {plan.features?.commercialLicense && (
                       <div className="flex items-start">
                         <Check className="w-4 h-4 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
                         <div>
@@ -471,7 +473,7 @@ export default function PricingPage() {
                   {/* CTA Button */}
                   <div className="mt-auto">
                     <button
-                    onClick={() => handleSubscribe(plan._id || plan.id)}
+                    onClick={() => handleSubscribe(plan._id || plan.id || '')}
                     disabled={!!isCurrentPlan}
                     className={`w-full py-4 px-6 rounded-xl font-semibold tracking-wide text-sm transition-all duration-300 ${
                       isCurrentPlan
