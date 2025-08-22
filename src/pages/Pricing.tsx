@@ -49,19 +49,10 @@ export default function PricingPage() {
 
   const fetchPlans = async () => {
     try {
-      console.log('🔍 Fetching plans from API...')
       const response = await apiClient.get('/payment/plans')
-      console.log('📋 Plans API response:', response)
-      
       // apiClient already extracts data.data, so response IS the data object
       const plansData = (response as any)?.plans || []
-      console.log('📊 Extracted plans:', plansData)
-      console.log('📈 Plans count:', plansData.length)
-      
       setPlans(plansData)
-      
-      // Debug alert
-      alert(`Plans loaded: ${plansData.length} plans found`)
     } catch (error) {
       console.error('Failed to fetch plans:', error)
     } finally {
@@ -263,7 +254,8 @@ export default function PricingPage() {
 
   // Loading state removed - instant display with empty plans array
 
-  const activePlans = plans.filter(plan => plan.status === 'active').sort((a, b) => a.display.order - b.display.order)
+  // Backend doesn't send status field, so assume all returned plans are active
+  const activePlans = plans.sort((a, b) => (a.display?.order || 0) - (b.display?.order || 0))
 
   return (
     <div className="min-h-screen bg-background dark:bg-transparent overflow-y-auto">
@@ -309,13 +301,6 @@ export default function PricingPage() {
 
         {/* Plans Grid */}
         <div className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {/* Debug info */}
-          <div className="col-span-full text-center p-4 bg-red-100 rounded">
-            <p>Debug: Total plans: {plans.length}</p>
-            <p>Active plans: {activePlans.length}</p>
-            <p>Plans data: {JSON.stringify(plans.slice(0, 2))}</p>
-          </div>
-          
           {activePlans.map((plan) => {
             // const IconComponent = getPlanIcon(plan.name)
             // Check if this is the current plan - compare with plan display name or name variations
