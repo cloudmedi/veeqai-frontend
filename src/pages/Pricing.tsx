@@ -45,7 +45,7 @@ export default function PricingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   // Clean, enterprise-grade payment modal
-  const openPaymentModal = (token: string) => {
+  const openPaymentModal = (htmlContent: string) => {
     // Clean up existing modal
     document.querySelector('.veeq-payment-modal')?.remove()
 
@@ -134,72 +134,12 @@ export default function PricingPage() {
       content.style.transform = 'scale(1) translateY(0)'
     }, 10)
 
-    // Initialize Iyzico form with API token
-    console.log('🔑 Initializing payment with token:', token.substring(0, 20) + '...')
-    loadIyzicoSDK(() => {
-      console.log('📦 Iyzico SDK loaded, initializing form')
-      try {
-        console.log('🔍 Available Iyzico methods:', Object.keys((window as any).iyzipay || {}))
-        
-        // İyzico SDK farklı API kullanıyor olabilir
-        if ((window as any).iyzipay?.init) {
-          (window as any).iyzipay.init({
-            token: token,
-            containerId: 'iyzico-form-container',
-            callbackName: 'iyzicoCallback'
-          })
-        } else if ((window as any).IyzipayCheckoutForm) {
-          (window as any).IyzipayCheckoutForm.init({
-            token: token,
-            containerId: 'iyzico-form-container',
-            callbackName: 'iyzicoCallback'
-          })
-        } else {
-          console.error('❌ Iyzico API not found. Available:', (window as any).iyzipay)
-          alert('İyzico API bulunamadı. Lütfen sayfayı yenileyin.')
-        }
-        console.log('✅ Iyzico form initialized successfully')
-      } catch (error) {
-        console.error('❌ Iyzico initialization failed:', error)
-        alert('Ödeme formu yüklenemedi: ' + (error instanceof Error ? error.message : 'Bilinmeyen hata'))
-      }
-    })
-  }
-
-  // Load Iyzico SDK
-  const loadIyzicoSDK = (callback: () => void) => {
-    console.log('🚀 Loading Iyzico SDK...')
-    
-    if ((window as any).iyzipay) {
-      console.log('✅ Iyzico SDK already loaded')
-      callback()
-      return
-    }
-
+    // Execute Iyzico HTML content directly
     const script = document.createElement('script')
-    script.src = 'https://static.iyzipay.com/checkoutform/api/js/iyzipay-checkout-form-1.0.0.js'
-    script.onload = () => {
-      console.log('✅ Iyzico SDK loaded from CDN')
-      callback()
-    }
-    script.onerror = () => {
-      console.error('❌ Failed to load Iyzico SDK')
-      alert('Ödeme sistemi yüklenemedi. Lütfen sayfayı yenileyin.')
-    }
-    document.head.appendChild(script)
-
-    // Global callback for payment result
-    ;(window as any).iyzicoCallback = (result: any) => {
-      console.log('💳 Payment callback received:', result)
-      if (result.status === 'success') {
-        console.log('✅ Payment successful, reloading page')
-        window.location.reload()
-      } else {
-        console.error('❌ Payment failed:', result.errorMessage)
-        alert('Ödeme başarısız: ' + result.errorMessage)
-      }
-    }
+    script.innerHTML = htmlContent.replace('<script type="text/javascript">', '').replace('</script>', '')
+    document.body.appendChild(script)
   }
+
 
 
   useEffect(() => {
@@ -321,10 +261,10 @@ export default function PricingPage() {
 
       console.log('Payment API Response:', response)
 
-      // Use token with clean modal approach
-      if (response.token) {
-        console.log('Opening payment modal with token')
-        openPaymentModal(response.token)
+      // Use HTML content with clean modal
+      if (response.checkoutFormContent) {
+        console.log('Opening payment modal with HTML content')
+        openPaymentModal(response.checkoutFormContent)
       } else if (response.paymentPageUrl) {
         console.log('Redirecting to payment page:', response.paymentPageUrl)
         window.location.href = response.paymentPageUrl
