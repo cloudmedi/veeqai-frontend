@@ -44,6 +44,38 @@ export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
+  // Iyzico popup function
+  const openIyzicoPopup = (paymentData: any) => {
+    // Create popup window
+    const popup = window.open(
+      '',
+      'iyzicoPopup',
+      'width=600,height=700,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,directories=no,status=no'
+    )
+
+    if (popup) {
+      // Write payment form HTML to popup
+      popup.document.write(paymentData.htmlContent)
+      popup.document.close()
+
+      // Listen for popup close
+      const checkClosed = setInterval(() => {
+        if (popup.closed) {
+          clearInterval(checkClosed)
+          console.log('Payment popup closed')
+          // Refresh page or check payment status
+          window.location.reload()
+        }
+      }, 1000)
+    } else {
+      // Popup blocked, fallback to redirect
+      console.warn('Popup blocked, falling back to redirect')
+      if (paymentData.paymentPageUrl) {
+        window.location.href = paymentData.paymentPageUrl
+      }
+    }
+  }
+
   useEffect(() => {
     fetchPlans()
     // WebSocket connection removed - not needed for pricing page
@@ -163,9 +195,11 @@ export default function PricingPage() {
 
       console.log('Payment API Response:', response)
 
-      // apiClient.post returns data.data directly (see api-client.ts line 238)
-      // So response IS the payment data: {conversationId, paymentPageUrl, token}
-      if (response.paymentPageUrl) {
+      // Check if we have popup data (new integration) or fallback to redirect
+      if (response.paymentData?.htmlContent) {
+        console.log('Opening payment popup...')
+        openIyzicoPopup(response.paymentData)
+      } else if (response.paymentPageUrl) {
         console.log('Redirecting to payment page:', response.paymentPageUrl)
         window.location.href = response.paymentPageUrl
       } else {
