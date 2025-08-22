@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react'
-import { Check, ChevronDown, X } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Check, ChevronDown } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/contexts/AuthContext'
 import { apiClient } from '@/lib/api-client'
@@ -43,42 +43,40 @@ export default function PricingPage() {
   const [plans, setPlans] = useState<Plan[]>([])
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
-  const [paymentModalOpen, setPaymentModalOpen] = useState(false)
-  const [paymentFormHtml, setPaymentFormHtml] = useState<string | null>(null)
-  const paymentModalRef = useRef<HTMLDivElement>(null)
 
-  // Iyzico modal handler
-  const openIyzicoModal = (htmlContent: string) => {
-    setPaymentFormHtml(htmlContent)
-    setPaymentModalOpen(true)
-
-    // After modal opens, inject the Iyzico scripts
-    setTimeout(() => {
-      if (paymentModalRef.current && htmlContent) {
-        const container = paymentModalRef.current
-        container.innerHTML = htmlContent
-        
-        // Execute any scripts in the HTML
-        const scripts = container.getElementsByTagName('script')
-        for (let i = 0; i < scripts.length; i++) {
-          const script = document.createElement('script')
-          if (scripts[i].src) {
-            script.src = scripts[i].src
-          } else {
-            script.innerHTML = scripts[i].innerHTML
-          }
-          document.body.appendChild(script)
-        }
+  // Iyzico native popup handler
+  const openIyzicoPopup = (htmlContent: string) => {
+    // Create a hidden div for Iyzico popup
+    const popupDiv = document.createElement('div')
+    popupDiv.id = 'iyzipay-checkout-form'
+    popupDiv.className = 'popup'
+    document.body.appendChild(popupDiv)
+    
+    // Insert the HTML content
+    popupDiv.innerHTML = htmlContent
+    
+    // Execute scripts to initialize Iyzico popup
+    const scripts = popupDiv.getElementsByTagName('script')
+    for (let i = 0; i < scripts.length; i++) {
+      const script = document.createElement('script')
+      if (scripts[i].src) {
+        script.src = scripts[i].src
+        script.async = false
+      } else {
+        script.innerHTML = scripts[i].innerHTML
       }
-    }, 100)
+      document.body.appendChild(script)
+    }
+    
+    // Clean up when payment completes
+    window.addEventListener('message', (event) => {
+      if (event.data && (event.data.status === 'success' || event.data.status === 'failure')) {
+        document.body.removeChild(popupDiv)
+        window.location.reload()
+      }
+    })
   }
 
-  const closePaymentModal = () => {
-    setPaymentModalOpen(false)
-    setPaymentFormHtml(null)
-    // Reload page to check payment status
-    window.location.reload()
-  }
 
   useEffect(() => {
     fetchPlans()
@@ -199,10 +197,10 @@ export default function PricingPage() {
 
       console.log('Payment API Response:', response)
 
-      // Use modal if we have HTML content, otherwise redirect
+      // Use Iyzico native popup if we have HTML content, otherwise redirect
       if (response.checkoutFormContent) {
-        console.log('Opening payment modal with HTML content')
-        openIyzicoModal(response.checkoutFormContent)
+        console.log('Opening Iyzico native popup')
+        openIyzicoPopup(response.checkoutFormContent)
       } else if (response.paymentPageUrl) {
         console.log('Redirecting to payment page:', response.paymentPageUrl)
         window.location.href = response.paymentPageUrl
@@ -603,32 +601,6 @@ export default function PricingPage() {
         </div>
       </div>
 
-      {/* Iyzico Payment Modal */}
-      {paymentModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="relative bg-white rounded-lg shadow-xl w-full max-w-md h-[600px] overflow-hidden">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-4 border-b">
-              <h2 className="text-lg font-semibold">
-                {i18n.language === 'tr' ? 'Güvenli Ödeme' : 'Secure Payment'}
-              </h2>
-              <button
-                onClick={closePaymentModal}
-                className="p-1 hover:bg-gray-100 rounded-full transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            
-            {/* Payment Form Container */}
-            <div 
-              ref={paymentModalRef}
-              className="w-full h-[calc(100%-60px)] overflow-auto"
-              id="iyzipay-checkout-form"
-            />
-          </div>
-        </div>
-      )}
     </div>
   )
 }
