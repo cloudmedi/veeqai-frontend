@@ -52,12 +52,10 @@ export default function PricingPage() {
       existingDiv.remove()
     }
 
-    // Create div for Iyzico popup mode with wider styling
+    // Create div for Iyzico popup mode
     const formDiv = document.createElement('div')
     formDiv.id = 'iyzipay-checkout-form'
     formDiv.className = 'popup'
-    formDiv.style.maxWidth = '600px'
-    formDiv.style.width = '95%'
     document.body.appendChild(formDiv)
 
     // Execute Iyzico script - it will handle popup display and close logic
