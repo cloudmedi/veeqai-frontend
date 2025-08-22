@@ -164,11 +164,15 @@ export default function PricingPage() {
       console.log('Payment API Response:', response)
       console.log('Response data:', response.data)
 
-      if (response.success && response.data.paymentPageUrl) {
+      // Try multiple possible response structures
+      const paymentUrl = response.data?.paymentPageUrl || response.paymentPageUrl || response.data?.data?.paymentPageUrl
+
+      if (response.success && paymentUrl) {
         // Redirect to Iyzico payment page
-        console.log('Redirecting to payment page:', response.data.paymentPageUrl)
-        window.location.href = response.data.paymentPageUrl
+        console.log('Redirecting to payment page:', paymentUrl)
+        window.location.href = paymentUrl
       } else {
+        console.error('Payment URL not found in response:', response)
         throw new Error(response.message || 'Payment initialization failed')
       }
 
