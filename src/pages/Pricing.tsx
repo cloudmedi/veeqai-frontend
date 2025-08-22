@@ -161,6 +161,9 @@ export default function PricingPage() {
         }
       }) as any
 
+      console.log('Payment API Response:', response)
+      console.log('Response data:', response.data)
+
       if (response.success && response.data.paymentPageUrl) {
         // Redirect to Iyzico payment page
         console.log('Redirecting to payment page:', response.data.paymentPageUrl)
