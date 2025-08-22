@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Check, ChevronDown } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { Check, ChevronDown, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/contexts/AuthContext'
 import { apiClient } from '@/lib/api-client'
@@ -43,50 +43,41 @@ export default function PricingPage() {
   const [plans, setPlans] = useState<Plan[]>([])
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false)
+  const [paymentFormHtml, setPaymentFormHtml] = useState<string | null>(null)
+  const paymentModalRef = useRef<HTMLDivElement>(null)
 
-  // Iyzico popup function
-  const openIyzicoPopup = (paymentUrl: string) => {
-    // Create popup window with Iyzico payment URL
-    const popup = window.open(
-      paymentUrl,
-      'iyzicoPopup',
-      'width=800,height=700,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,directories=no,status=no'
-    )
+  // Iyzico modal handler
+  const openIyzicoModal = (htmlContent: string) => {
+    setPaymentFormHtml(htmlContent)
+    setPaymentModalOpen(true)
 
-    if (popup) {
-      // Listen for popup close or URL changes (success/failure)
-      const checkClosed = setInterval(() => {
-        try {
-          // Check if popup is closed
-          if (popup.closed) {
-            clearInterval(checkClosed)
-            console.log('Payment popup closed')
-            // Refresh page or check payment status
-            window.location.reload()
-            return
+    // After modal opens, inject the Iyzico scripts
+    setTimeout(() => {
+      if (paymentModalRef.current && htmlContent) {
+        const container = paymentModalRef.current
+        container.innerHTML = htmlContent
+        
+        // Execute any scripts in the HTML
+        const scripts = container.getElementsByTagName('script')
+        for (let i = 0; i < scripts.length; i++) {
+          const script = document.createElement('script')
+          if (scripts[i].src) {
+            script.src = scripts[i].src
+          } else {
+            script.innerHTML = scripts[i].innerHTML
           }
-
-          // Check if popup URL changed (payment completed)
-          try {
-            const popupUrl = popup.location.href
-            if (popupUrl.includes('/payment/success') || popupUrl.includes('/payment/failed')) {
-              popup.close()
-              clearInterval(checkClosed)
-              window.location.reload()
-            }
-          } catch (e) {
-            // Cross-origin error - ignore
-          }
-        } catch (e) {
-          // Popup access error - likely closed
-          clearInterval(checkClosed)
+          document.body.appendChild(script)
         }
-      }, 1000)
-    } else {
-      // Popup blocked, fallback to redirect
-      console.warn('Popup blocked, falling back to redirect')
-      window.location.href = paymentUrl
-    }
+      }
+    }, 100)
+  }
+
+  const closePaymentModal = () => {
+    setPaymentModalOpen(false)
+    setPaymentFormHtml(null)
+    // Reload page to check payment status
+    window.location.reload()
   }
 
   useEffect(() => {
@@ -208,13 +199,16 @@ export default function PricingPage() {
 
       console.log('Payment API Response:', response)
 
-      // Open payment in popup window
-      if (response.paymentPageUrl) {
-        console.log('Opening payment popup:', response.paymentPageUrl)
-        openIyzicoPopup(response.paymentPageUrl)
+      // Use modal if we have HTML content, otherwise redirect
+      if (response.checkoutFormContent) {
+        console.log('Opening payment modal with HTML content')
+        openIyzicoModal(response.checkoutFormContent)
+      } else if (response.paymentPageUrl) {
+        console.log('Redirecting to payment page:', response.paymentPageUrl)
+        window.location.href = response.paymentPageUrl
       } else {
-        console.error('Payment URL not found in response:', response)
-        throw new Error('Payment initialization failed - no payment URL')
+        console.error('Payment data not found in response:', response)
+        throw new Error('Payment initialization failed - no payment data')
       }
 
     } catch (error: any) {
@@ -608,6 +602,33 @@ export default function PricingPage() {
           </div>
         </div>
       </div>
+
+      {/* Iyzico Payment Modal */}
+      {paymentModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="relative bg-white rounded-lg shadow-xl w-full max-w-md h-[600px] overflow-hidden">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 border-b">
+              <h2 className="text-lg font-semibold">
+                {i18n.language === 'tr' ? 'Güvenli Ödeme' : 'Secure Payment'}
+              </h2>
+              <button
+                onClick={closePaymentModal}
+                className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            {/* Payment Form Container */}
+            <div 
+              ref={paymentModalRef}
+              className="w-full h-[calc(100%-60px)] overflow-auto"
+              id="iyzipay-checkout-form"
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
