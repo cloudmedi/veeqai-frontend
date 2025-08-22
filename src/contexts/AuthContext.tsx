@@ -118,28 +118,50 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setRefreshToken(null)
             setUser(null)
           } else {
-            // ✅ For ANY other error (including 404), logout for security
-            localStorage.removeItem('veeqai_token')
-            localStorage.removeItem('veeqai_refresh_token')
-            localStorage.removeItem('veeqai_user')
-            sessionStorage.removeItem('veeqai_token')
-            sessionStorage.removeItem('veeqai_refresh_token')
-            sessionStorage.removeItem('veeqai_user')
-            setToken(null)
-            setRefreshToken(null)
-            setUser(null)
+            // ✅ For server errors, try to use cached user data temporarily
+            console.warn('⚠️ [AUTH] Token validation failed with status:', response.status)
+            
+            // If it's a 5xx error, keep the session but warn
+            if (response.status >= 500) {
+              console.log('🔄 [AUTH] Server error, keeping session temporarily')
+              setToken(savedToken)
+              setRefreshToken(savedRefreshToken)
+              setUser(JSON.parse(savedUser))
+              
+              // Retry validation after 5 seconds
+              setTimeout(() => {
+                validateToken()
+              }, 5000)
+            } else {
+              // For other errors, clear session
+              localStorage.removeItem('veeqai_token')
+              localStorage.removeItem('veeqai_refresh_token')
+              localStorage.removeItem('veeqai_user')
+              sessionStorage.removeItem('veeqai_token')
+              sessionStorage.removeItem('veeqai_refresh_token')
+              sessionStorage.removeItem('veeqai_user')
+              setToken(null)
+              setRefreshToken(null)
+              setUser(null)
+            }
           }
         } catch (error) {
-          // ✅ On any network error, logout for security
-          localStorage.removeItem('veeqai_token')
-          localStorage.removeItem('veeqai_refresh_token')
-          localStorage.removeItem('veeqai_user')
-          sessionStorage.removeItem('veeqai_token')
-          sessionStorage.removeItem('veeqai_refresh_token')
-          sessionStorage.removeItem('veeqai_user')
-          setToken(null)
-          setRefreshToken(null)
-          setUser(null)
+          // ✅ On network error, try to use cached data
+          console.warn('⚠️ [AUTH] Network error during validation:', error)
+          
+          // Keep the session data temporarily
+          setToken(savedToken)
+          setRefreshToken(savedRefreshToken)
+          setUser(JSON.parse(savedUser))
+          
+          // Start session management anyway
+          sessionManager.start()
+          activityMonitor.start(JSON.parse(savedUser).id)
+          
+          // Retry validation after 3 seconds
+          setTimeout(() => {
+            validateToken()
+          }, 3000)
         }
       }
       setIsLoading(false)

@@ -62,6 +62,9 @@ export class SessionManager {
     console.log('🔐 [SESSION] Starting session management...');
     this.state.isActive = true;
     this.state.lastActivity = Date.now();
+    
+    // Store session start time to prevent immediate timeout on refresh
+    sessionStorage.setItem('session_start', Date.now().toString());
 
     // Add activity listeners
     this.config.activityEvents.forEach(event => {
@@ -219,6 +222,16 @@ export class SessionManager {
       const now = Date.now();
       const timeSinceActivity = now - this.state.lastActivity;
       const timeoutMs = this.config.timeoutMinutes * 60 * 1000;
+      
+      // Check if this is a fresh page load (within 5 seconds of session start)
+      const sessionStart = sessionStorage.getItem('session_start');
+      if (sessionStart) {
+        const timeSinceStart = now - parseInt(sessionStart);
+        if (timeSinceStart < 5000) {
+          console.log('🔄 [SESSION] Skipping timeout check for fresh page load');
+          return;
+        }
+      }
 
       // Check if session should have timed out
       if (timeSinceActivity >= timeoutMs) {
