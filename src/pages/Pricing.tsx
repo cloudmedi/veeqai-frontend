@@ -49,14 +49,33 @@ export default function PricingPage() {
     // Clean up any existing elements
     const existingDiv = document.getElementById('iyzipay-checkout-form')
     if (existingDiv) {
-      existingDiv.remove()
+      existingDiv.parentElement?.remove() // Remove container
     }
 
-    // Create div for Iyzico responsive form (full page, mobile-friendly)
-    const popupDiv = document.createElement('div')
-    popupDiv.id = 'iyzipay-checkout-form'
-    popupDiv.className = 'responsive'
-    document.body.appendChild(popupDiv)
+    // Create container for Iyzico responsive form 
+    const container = document.createElement('div')
+    container.style.position = 'fixed'
+    container.style.top = '0'
+    container.style.left = '0'
+    container.style.width = '100vw'
+    container.style.height = '100vh'
+    container.style.backgroundColor = 'rgba(0,0,0,0.8)'
+    container.style.zIndex = '9999'
+    container.style.display = 'flex'
+    container.style.alignItems = 'center'
+    container.style.justifyContent = 'center'
+    
+    const formDiv = document.createElement('div')
+    formDiv.id = 'iyzipay-checkout-form'
+    formDiv.className = 'responsive'
+    formDiv.style.maxWidth = '500px'
+    formDiv.style.width = '90%'
+    formDiv.style.backgroundColor = 'white'
+    formDiv.style.borderRadius = '12px'
+    formDiv.style.overflow = 'hidden'
+    
+    container.appendChild(formDiv)
+    document.body.appendChild(container)
 
     // Simply execute the script - Iyzico will handle modal display
     const script = document.createElement('script')
@@ -70,6 +89,8 @@ export default function PricingPage() {
         const formElement = document.getElementById('iyzipay-checkout-form')
         if (!formElement || formElement.children.length === 0) {
           clearInterval(checkPaymentComplete)
+          // Remove container and reload
+          formElement?.parentElement?.remove()
           window.location.reload()
         }
       }, 2000)
