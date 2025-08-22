@@ -44,109 +44,24 @@ export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
-  // Enterprise-grade İyzico iframe modal
-  const openPaymentModal = (paymentPageUrl: string) => {
-    // Clean up existing modal
-    document.querySelector('.veeq-payment-modal')?.remove()
-
-    // Create secure iframe modal
-    const modal = document.createElement('div')
-    modal.className = 'veeq-payment-modal'
-    modal.innerHTML = `
-      <div class="modal-backdrop">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div class="modal-title">
-              <span class="veeq-logo">VeeqAI</span>
-              <span>Güvenli Ödeme</span>
-            </div>
-            <button class="close-btn">✕</button>
-          </div>
-          <div class="iframe-container" style="padding: 0; overflow-y: auto; max-height: calc(90vh - 80px);">
-            <iframe 
-              src="${paymentPageUrl}&iframe=true" 
-              frameborder="0"
-              scrolling="no"
-              id="iyzico-payment-iframe"
-              style="width: 100%; min-height: 600px; height: 100%; border: none; border-radius: 0 0 16px 16px;">
-            </iframe>
-          </div>
-        </div>
-      </div>
-    `
-
-    // Modal styles
-    modal.style.cssText = `
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 9999; display: flex; align-items: center; justify-content: center;
-      background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
-      opacity: 0; transition: opacity 0.3s ease;
-    `
-    
-    const content = modal.querySelector('.modal-content') as HTMLElement
-    content.style.cssText = `
-      background: white; border-radius: 16px; max-width: 500px; width: 90%;
-      max-height: 90vh; overflow: hidden;
-      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
-      transform: scale(0.95) translateY(20px); transition: all 0.3s ease;
-    `
-
-    const header = modal.querySelector('.modal-header') as HTMLElement
-    header.style.cssText = `
-      padding: 20px 24px; border-bottom: 1px solid #f1f5f9;
-      display: flex; justify-content: space-between; align-items: center;
-    `
-
-    const title = modal.querySelector('.modal-title') as HTMLElement
-    title.style.cssText = `
-      display: flex; align-items: center; gap: 8px;
-      font-weight: 600; font-size: 18px; color: #1e293b;
-    `
-
-    const logo = modal.querySelector('.veeq-logo') as HTMLElement
-    logo.style.cssText = `
-      font-size: 16px; font-weight: 700; color: #6366f1;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    `
-
-    const closeBtn = modal.querySelector('.close-btn') as HTMLElement
-    closeBtn.style.cssText = `
-      background: none; border: none; font-size: 20px; color: #64748b;
-      cursor: pointer; padding: 8px; border-radius: 8px;
-      width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
-    `
-
-    // Close function
-    const closeModal = () => {
-      modal.style.opacity = '0'
-      content.style.transform = 'scale(0.95) translateY(20px)'
-      setTimeout(() => modal.remove(), 300)
+  // Just let Iyzico do its thing - no custom modal
+  const openPaymentModal = (htmlContent: string) => {
+    // Clean up any existing form
+    const existingDiv = document.getElementById('iyzipay-checkout-form')
+    if (existingDiv) {
+      existingDiv.remove()
     }
 
-    // Event listeners
-    closeBtn.addEventListener('click', closeModal)
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal()
-    })
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal()
-    })
+    // Create div for Iyzico
+    const formDiv = document.createElement('div')
+    formDiv.id = 'iyzipay-checkout-form'
+    formDiv.className = 'responsive'
+    document.body.appendChild(formDiv)
 
-    // Listen for payment completion
-    window.addEventListener('message', (event) => {
-      if (event.data?.type === 'PAYMENT_SUCCESS' || event.data?.status === 'success') {
-        closeModal()
-        window.location.reload() // Refresh to show updated subscription
-      }
-    })
-
-    document.body.appendChild(modal)
-
-    // Animate in
-    setTimeout(() => {
-      modal.style.opacity = '1'
-      content.style.transform = 'scale(1) translateY(0)'
-    }, 10)
+    // Execute Iyzico script
+    const script = document.createElement('script')
+    script.innerHTML = htmlContent.replace('<script type="text/javascript">', '').replace('</script>', '')
+    document.body.appendChild(script)
   }
 
 
@@ -270,10 +185,10 @@ export default function PricingPage() {
 
       console.log('Payment API Response:', response)
 
-      // Use İyzico iframe integration with VeeqAI modal
-      if (response.paymentPageUrl) {
-        console.log('Opening payment modal with iframe')
-        openPaymentModal(response.paymentPageUrl)
+      // Use Iyzico responsive form
+      if (response.checkoutFormContent) {
+        console.log('Opening payment modal with Iyzico responsive form')
+        openPaymentModal(response.checkoutFormContent)
       } else {
         console.error('Payment data not found in response:', response)
         throw new Error('Payment initialization failed - no payment data')
