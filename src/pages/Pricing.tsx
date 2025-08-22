@@ -67,8 +67,8 @@ export default function PricingPage() {
     setTimeout(() => {
       // Check if payment completed and clean up
       const checkPaymentComplete = setInterval(() => {
-        if (!document.getElementById('iyzipay-checkout-form') || 
-            document.getElementById('iyzipay-checkout-form').children.length === 0) {
+        const formElement = document.getElementById('iyzipay-checkout-form')
+        if (!formElement || formElement.children.length === 0) {
           clearInterval(checkPaymentComplete)
           window.location.reload()
         }
