@@ -223,8 +223,11 @@ export default function PricingPage() {
       // Use Iyzico native popup if we have HTML content, otherwise redirect
       if (response.checkoutFormContent) {
         console.log('Opening Iyzico native popup')
-        setPaymentLoading(null) // Clear loading immediately before popup
-        openIyzicoPopup(response.checkoutFormContent)
+        // Wait 3 seconds to let Iyzico form prepare in background
+        setTimeout(() => {
+          setPaymentLoading(null) // Clear loading after delay
+          openIyzicoPopup(response.checkoutFormContent)
+        }, 3000)
       } else if (response.paymentPageUrl) {
         console.log('Redirecting to payment page:', response.paymentPageUrl)
         window.location.href = response.paymentPageUrl
