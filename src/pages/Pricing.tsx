@@ -47,44 +47,30 @@ export default function PricingPage() {
   // Open iyzico checkout form
   const openIyzicoCheckout = (checkoutFormContent: string) => {
     try {
-      // Create a container for iyzico checkout form
-      const container = document.createElement('div')
-      container.id = 'iyzico-checkout-form'
-      container.style.cssText = `
-        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
-        z-index: 9999; display: flex; align-items: center; justify-content: center;
-      `
+      // Clean up any existing iyzico elements
+      document.querySelectorAll('[id*="iyzico"], [class*="iyzico"]').forEach(el => el.remove())
       
-      // Insert the iyzico checkout form HTML
-      const formWrapper = document.createElement('div')
-      formWrapper.style.cssText = `
-        background: white; border-radius: 16px; max-width: 500px; 
-        width: 90%; max-height: 85vh; overflow: auto; padding: 20px;
-      `
-      formWrapper.innerHTML = checkoutFormContent
-      container.appendChild(formWrapper)
+      // Create a hidden div to execute iyzico script
+      const hiddenDiv = document.createElement('div')
+      hiddenDiv.style.display = 'none'
+      hiddenDiv.innerHTML = checkoutFormContent
+      document.body.appendChild(hiddenDiv)
       
-      document.body.appendChild(container)
-      
-      // Execute iyzico script after DOM insertion
+      // Execute iyzico script - this will open their own popup
       setTimeout(() => {
-        const scripts = formWrapper.getElementsByTagName('script')
+        const scripts = hiddenDiv.getElementsByTagName('script')
         for (let script of scripts) {
-          const newScript = document.createElement('script')
-          newScript.text = script.innerHTML
-          document.head.appendChild(newScript)
+          try {
+            eval(script.innerHTML) // Execute iyzico initialization
+          } catch (e) {
+            console.log('Script execution:', e)
+          }
         }
+        // Remove hidden div after script execution
+        setTimeout(() => hiddenDiv.remove(), 1000)
       }, 100)
       
-      // Add close functionality
-      container.addEventListener('click', (e) => {
-        if (e.target === container) {
-          document.body.removeChild(container)
-        }
-      })
-      
-      console.log('Iyzico checkout form opened successfully')
+      console.log('Iyzico script executed - popup should open')
     } catch (error) {
       console.error('Failed to open iyzico checkout:', error)
       alert('Payment form could not be opened. Please try again.')
