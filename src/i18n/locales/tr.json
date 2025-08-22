@@ -28,6 +28,8 @@
     "credits": "Kredi",
     "login": "Giriş",
     "register": "Kayıt",
+    "limited": "Sınırlı",
+    "unlimited": "Sınırsız",
     "logout": "Çıkış",
     "email": "E-posta",
     "password": "Şifre",

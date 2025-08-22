@@ -327,13 +327,20 @@ export default function PricingPage() {
                     : 'border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20'
                 }`}
               >
-                {/* Badge from Database */}
-                {plan.display?.badge && plan.display.badge.trim() && (
+                {/* Badge from Database or Auto-generated for Popular */}
+                {((plan.display?.badge && plan.display.badge.trim()) || (plan.display?.popular || plan.isPopular)) && (
                   <div className="absolute -top-2 right-4 z-10">
                     <div className={`text-white px-3 py-1 rounded text-xs font-bold uppercase tracking-wide shadow-lg ${
-                      plan.display?.popular || plan.isPopular ? 'bg-orange-500' : 'bg-blue-500'
+                      plan.display?.popular || plan.isPopular 
+                        ? 'bg-gradient-to-r from-primary to-purple-600 dark:from-gray-950 dark:to-purple-900' 
+                        : 'bg-blue-500'
                     }`}>
-                      {plan.display.badge}
+                      {plan.display?.badge && plan.display.badge.trim() 
+                        ? plan.display.badge 
+                        : (plan.display?.popular || plan.isPopular) 
+                        ? (i18n.language === 'tr' ? 'EN POPÜLER' : 'MOST POPULAR')
+                        : ''
+                      }
                     </div>
                   </div>
                 )}

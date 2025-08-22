@@ -28,6 +28,8 @@
     "credits": "Services",
     "login": "Login",
     "register": "Register",
+    "limited": "Limited",
+    "unlimited": "Unlimited",
     "logout": "Logout",
     "email": "Email",
     "password": "Password",
