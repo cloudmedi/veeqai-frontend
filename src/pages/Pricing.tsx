@@ -44,37 +44,42 @@ export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
-  // Iyzico native popup handler
+  // Iyzico official popup integration
   const openIyzicoPopup = (htmlContent: string) => {
-    // Create a hidden div for Iyzico popup
+    // Create div for Iyzico popup as per official docs
+    let existingDiv = document.getElementById('iyzipay-checkout-form')
+    if (existingDiv) {
+      existingDiv.remove()
+    }
+
     const popupDiv = document.createElement('div')
     popupDiv.id = 'iyzipay-checkout-form'
-    popupDiv.className = 'popup'
+    popupDiv.className = 'popup' // Official Iyzico popup class
     document.body.appendChild(popupDiv)
-    
-    // Insert the HTML content
-    popupDiv.innerHTML = htmlContent
-    
-    // Execute scripts to initialize Iyzico popup
-    const scripts = popupDiv.getElementsByTagName('script')
-    for (let i = 0; i < scripts.length; i++) {
-      const script = document.createElement('script')
-      if (scripts[i].src) {
-        script.src = scripts[i].src
-        script.async = false
+
+    // Create temporary container to parse HTML content
+    const tempContainer = document.createElement('div')
+    tempContainer.innerHTML = htmlContent
+
+    // Extract and execute scripts from checkoutFormContent
+    const scripts = tempContainer.getElementsByTagName('script')
+    Array.from(scripts).forEach((script) => {
+      const newScript = document.createElement('script')
+      
+      if (script.src) {
+        // External script
+        newScript.src = script.src
+        newScript.async = true
       } else {
-        script.innerHTML = scripts[i].innerHTML
+        // Inline script - contains iyziInit function
+        newScript.text = script.innerHTML
       }
-      document.body.appendChild(script)
-    }
-    
-    // Clean up when payment completes
-    window.addEventListener('message', (event) => {
-      if (event.data && (event.data.status === 'success' || event.data.status === 'failure')) {
-        document.body.removeChild(popupDiv)
-        window.location.reload()
-      }
+      
+      document.head.appendChild(newScript)
     })
+
+    // Remove temporary container
+    tempContainer.remove()
   }
 
 
