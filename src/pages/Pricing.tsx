@@ -318,18 +318,18 @@ export default function PricingPage() {
 
             return (
               <div
-                key={plan._id}
+                key={plan._id || plan.id}
                 className={`relative bg-[#fefefe] dark:bg-black/80 dark:backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border flex flex-col ${
-                  plan.display.popular
+                  plan.display?.popular || plan.isPopular
                     ? 'border-purple-500'
                     : 'border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20'
                 }`}
               >
                 {/* Badge from Database */}
-                {plan.display.badge && plan.display.badge.trim() && (
+                {plan.display?.badge && plan.display.badge.trim() && (
                   <div className="absolute -top-2 right-4 z-10">
                     <div className={`text-white px-3 py-1 rounded text-xs font-bold uppercase tracking-wide shadow-lg ${
-                      plan.display.popular ? 'bg-orange-500' : 'bg-blue-500'
+                      plan.display?.popular || plan.isPopular ? 'bg-orange-500' : 'bg-blue-500'
                     }`}>
                       {plan.display.badge}
                     </div>
@@ -471,12 +471,12 @@ export default function PricingPage() {
                   {/* CTA Button */}
                   <div className="mt-auto">
                     <button
-                    onClick={() => handleSubscribe(plan._id)}
+                    onClick={() => handleSubscribe(plan._id || plan.id)}
                     disabled={!!isCurrentPlan}
                     className={`w-full py-4 px-6 rounded-xl font-semibold tracking-wide text-sm transition-all duration-300 ${
                       isCurrentPlan
                         ? 'bg-background dark:bg-white/10 text-foreground border-2 border-border dark:border-white/30 cursor-not-allowed'
-                        : plan.display.popular
+                        : (plan.display?.popular || plan.isPopular)
                         ? 'bg-gradient-to-r from-primary to-purple-600 dark:from-gray-950 dark:to-purple-900 hover:from-primary/90 hover:to-purple-600/90 dark:hover:from-gray-900 dark:hover:to-purple-800 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/30 dark:before:via-white/20 before:to-transparent before:w-12 before:h-full before:transform before:-translate-x-full before:animate-[shimmer_5s_infinite] before:skew-x-12'
                         : isFree
                         ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100'
