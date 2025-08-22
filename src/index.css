@@ -20,22 +20,7 @@
   background: hsl(var(--muted-foreground) / 0.5);
 }
 
-/* Iyzico popup width override */
-#iyzipay-checkout-form.responsive {
-  max-width: 600px !important;
-  width: 90% !important;
-  margin: 0 auto !important;
-}
-
-#iyzipay-checkout-form.responsive .iyzipay-checkout-form-container {
-  max-width: 100% !important;
-  width: 100% !important;
-}
-
-#iyzipay-checkout-form.responsive iframe {
-  max-width: 100% !important;
-  width: 100% !important;
-}
+/* Custom payment modal styling */
 
 /* Volume slider styling */
 .slider::-webkit-slider-thumb {

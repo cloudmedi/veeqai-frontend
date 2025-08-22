@@ -44,24 +44,179 @@ export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
-  // Just let Iyzico do its thing - no custom modal
-  const openPaymentModal = (htmlContent: string) => {
-    // Clean up any existing form
-    const existingDiv = document.getElementById('iyzipay-checkout-form')
-    if (existingDiv) {
-      existingDiv.remove()
+  // Custom payment modal with direct API integration
+  const openPaymentModal = (paymentData: any) => {
+    // Clean up existing modal
+    document.querySelector('.veeq-payment-modal')?.remove()
+
+    // Create custom modal
+    const modal = document.createElement('div')
+    modal.className = 'veeq-payment-modal'
+    modal.style.cssText = `
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+      z-index: 9999; display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s ease;
+    `
+
+    modal.innerHTML = `
+      <div class="modal-content" style="
+        background: white; border-radius: 16px; padding: 0;
+        max-width: 500px; width: 90%; max-height: 85vh;
+        box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        transform: scale(0.95); transition: all 0.3s ease;
+      ">
+        <div class="modal-header" style="
+          padding: 24px; border-bottom: 1px solid #e5e7eb;
+          display: flex; justify-content: space-between; align-items: center;
+        ">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-weight: 700; color: #6366f1; font-size: 18px;">VeeqAI</span>
+            <span style="font-weight: 600; color: #374151;">Güvenli Ödeme</span>
+          </div>
+          <button class="close-btn" style="
+            background: none; border: none; font-size: 24px; color: #6b7280;
+            cursor: pointer; width: 32px; height: 32px;
+          ">×</button>
+        </div>
+        
+        <div class="modal-body" style="padding: 32px;">
+          <form id="payment-form">
+            <div style="margin-bottom: 24px;">
+              <label style="display: block; margin-bottom: 8px; color: #374151; font-weight: 500;">
+                Kart Sahibi
+              </label>
+              <input type="text" id="card-name" placeholder="Ad Soyad" style="
+                width: 100%; padding: 12px; border: 1px solid #d1d5db;
+                border-radius: 8px; font-size: 16px;
+              " required>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+              <label style="display: block; margin-bottom: 8px; color: #374151; font-weight: 500;">
+                Kart Numarası
+              </label>
+              <input type="text" id="card-number" placeholder="0000 0000 0000 0000" maxlength="19" style="
+                width: 100%; padding: 12px; border: 1px solid #d1d5db;
+                border-radius: 8px; font-size: 16px;
+              " required>
+            </div>
+
+            <div style="display: flex; gap: 16px; margin-bottom: 32px;">
+              <div style="flex: 1;">
+                <label style="display: block; margin-bottom: 8px; color: #374151; font-weight: 500;">
+                  Son Kullanma
+                </label>
+                <input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5" style="
+                  width: 100%; padding: 12px; border: 1px solid #d1d5db;
+                  border-radius: 8px; font-size: 16px;
+                " required>
+              </div>
+              <div style="flex: 1;">
+                <label style="display: block; margin-bottom: 8px; color: #374151; font-weight: 500;">
+                  CVV
+                </label>
+                <input type="text" id="card-cvv" placeholder="000" maxlength="3" style="
+                  width: 100%; padding: 12px; border: 1px solid #d1d5db;
+                  border-radius: 8px; font-size: 16px;
+                " required>
+              </div>
+            </div>
+
+            <button type="submit" id="pay-button" style="
+              width: 100%; padding: 16px; background: #6366f1; color: white;
+              border: none; border-radius: 12px; font-size: 16px; font-weight: 600;
+              cursor: pointer; transition: all 0.2s;
+            ">
+              Ödemeyi Tamamla
+            </button>
+          </form>
+        </div>
+      </div>
+    `
+
+    document.body.appendChild(modal)
+
+    // Get elements
+    const content = modal.querySelector('.modal-content') as HTMLElement
+    const closeBtn = modal.querySelector('.close-btn') as HTMLElement
+    const form = modal.querySelector('#payment-form') as HTMLFormElement
+    const payButton = modal.querySelector('#pay-button') as HTMLButtonElement
+
+    // Format card number input
+    const cardNumberInput = modal.querySelector('#card-number') as HTMLInputElement
+    cardNumberInput.addEventListener('input', (e) => {
+      let value = (e.target as HTMLInputElement).value.replace(/\s/g, '')
+      let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value
+      ;(e.target as HTMLInputElement).value = formattedValue
+    })
+
+    // Format expiry input
+    const expiryInput = modal.querySelector('#card-expiry') as HTMLInputElement
+    expiryInput.addEventListener('input', (e) => {
+      let value = (e.target as HTMLInputElement).value.replace(/\D/g, '')
+      if (value.length >= 2) {
+        value = value.slice(0, 2) + '/' + value.slice(2, 4)
+      }
+      ;(e.target as HTMLInputElement).value = value
+    })
+
+    // Close modal
+    const closeModal = () => {
+      modal.style.opacity = '0'
+      content.style.transform = 'scale(0.95)'
+      setTimeout(() => modal.remove(), 300)
     }
 
-    // Create div for Iyzico
-    const formDiv = document.createElement('div')
-    formDiv.id = 'iyzipay-checkout-form'
-    formDiv.className = 'responsive'
-    document.body.appendChild(formDiv)
+    closeBtn.addEventListener('click', closeModal)
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal()
+    })
 
-    // Execute Iyzico script
-    const script = document.createElement('script')
-    script.innerHTML = htmlContent.replace('<script type="text/javascript">', '').replace('</script>', '')
-    document.body.appendChild(script)
+    // Handle payment submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      
+      payButton.disabled = true
+      payButton.innerHTML = 'İşleniyor...'
+
+      const cardName = (modal.querySelector('#card-name') as HTMLInputElement).value
+      const cardNumber = (modal.querySelector('#card-number') as HTMLInputElement).value.replace(/\s/g, '')
+      const cardExpiry = (modal.querySelector('#card-expiry') as HTMLInputElement).value
+      const cardCvv = (modal.querySelector('#card-cvv') as HTMLInputElement).value
+
+      try {
+        // Send payment to backend
+        const response = await apiClient.post('/payment/process', {
+          token: paymentData.token,
+          card: {
+            cardHolderName: cardName,
+            cardNumber: cardNumber,
+            expireMonth: cardExpiry.split('/')[0],
+            expireYear: '20' + cardExpiry.split('/')[1],
+            cvc: cardCvv
+          }
+        })
+
+        if (response.status === 'success') {
+          closeModal()
+          alert('Ödeme başarılı!')
+          window.location.reload()
+        } else {
+          throw new Error('Payment failed')
+        }
+      } catch (error) {
+        payButton.disabled = false
+        payButton.innerHTML = 'Ödemeyi Tamamla'
+        alert('Ödeme başarısız. Lütfen bilgilerinizi kontrol edin.')
+      }
+    })
+
+    // Animate in
+    setTimeout(() => {
+      modal.style.opacity = '1'
+      content.style.transform = 'scale(1)'
+    }, 10)
   }
 
 
@@ -185,10 +340,10 @@ export default function PricingPage() {
 
       console.log('Payment API Response:', response)
 
-      // Use Iyzico responsive form
-      if (response.checkoutFormContent) {
-        console.log('Opening payment modal with Iyzico responsive form')
-        openPaymentModal(response.checkoutFormContent)
+      // Use custom payment modal
+      if (response.token) {
+        console.log('Opening custom payment modal')
+        openPaymentModal(response)
       } else {
         console.error('Payment data not found in response:', response)
         throw new Error('Payment initialization failed - no payment data')
