@@ -45,34 +45,47 @@ export default function PricingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   // Iyzico popup function
-  const openIyzicoPopup = (paymentData: any) => {
-    // Create popup window
+  const openIyzicoPopup = (paymentUrl: string) => {
+    // Create popup window with Iyzico payment URL
     const popup = window.open(
-      '',
+      paymentUrl,
       'iyzicoPopup',
-      'width=600,height=700,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,directories=no,status=no'
+      'width=800,height=700,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,directories=no,status=no'
     )
 
     if (popup) {
-      // Write payment form HTML to popup
-      popup.document.write(paymentData.htmlContent)
-      popup.document.close()
-
-      // Listen for popup close
+      // Listen for popup close or URL changes (success/failure)
       const checkClosed = setInterval(() => {
-        if (popup.closed) {
+        try {
+          // Check if popup is closed
+          if (popup.closed) {
+            clearInterval(checkClosed)
+            console.log('Payment popup closed')
+            // Refresh page or check payment status
+            window.location.reload()
+            return
+          }
+
+          // Check if popup URL changed (payment completed)
+          try {
+            const popupUrl = popup.location.href
+            if (popupUrl.includes('/payment/success') || popupUrl.includes('/payment/failed')) {
+              popup.close()
+              clearInterval(checkClosed)
+              window.location.reload()
+            }
+          } catch (e) {
+            // Cross-origin error - ignore
+          }
+        } catch (e) {
+          // Popup access error - likely closed
           clearInterval(checkClosed)
-          console.log('Payment popup closed')
-          // Refresh page or check payment status
-          window.location.reload()
         }
       }, 1000)
     } else {
       // Popup blocked, fallback to redirect
       console.warn('Popup blocked, falling back to redirect')
-      if (paymentData.paymentPageUrl) {
-        window.location.href = paymentData.paymentPageUrl
-      }
+      window.location.href = paymentUrl
     }
   }
 
@@ -195,13 +208,10 @@ export default function PricingPage() {
 
       console.log('Payment API Response:', response)
 
-      // Check if we have popup data (new integration) or fallback to redirect
-      if (response.paymentData?.htmlContent) {
-        console.log('Opening payment popup...')
-        openIyzicoPopup(response.paymentData)
-      } else if (response.paymentPageUrl) {
-        console.log('Redirecting to payment page:', response.paymentPageUrl)
-        window.location.href = response.paymentPageUrl
+      // Open payment in popup window
+      if (response.paymentPageUrl) {
+        console.log('Opening payment popup:', response.paymentPageUrl)
+        openIyzicoPopup(response.paymentPageUrl)
       } else {
         console.error('Payment URL not found in response:', response)
         throw new Error('Payment initialization failed - no payment URL')
