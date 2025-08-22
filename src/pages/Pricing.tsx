@@ -46,10 +46,36 @@ export default function PricingPage() {
 
   // VeeqAI custom payment modal with modern design
   const openIyzicoPopup = (htmlContent: string) => {
-    // Clean up any existing elements
+    // Comprehensive cleanup - remove all Iyzico related elements and scripts
     const existingContainer = document.querySelector('.veeq-payment-modal')
     if (existingContainer) {
       existingContainer.remove()
+    }
+
+    // Remove any existing Iyzico form elements
+    const existingForm = document.getElementById('iyzipay-checkout-form')
+    if (existingForm) {
+      existingForm.remove()
+    }
+
+    // Remove any existing Iyzico scripts to prevent conflicts
+    const existingScripts = document.querySelectorAll('script[src*="iyzico"], script[src*="iyzipay"]')
+    existingScripts.forEach(script => script.remove())
+    
+    // Also remove any inline Iyzico scripts
+    const allScripts = document.querySelectorAll('script:not([src])')
+    allScripts.forEach(script => {
+      if (script.innerHTML.includes('iyzico') || script.innerHTML.includes('iyzipay')) {
+        script.remove()
+      }
+    })
+
+    // Clear any global Iyzico variables if they exist
+    if (window && (window as any).iyzipay) {
+      delete (window as any).iyzipay
+    }
+    if (window && (window as any).Iyzico) {
+      delete (window as any).Iyzico
     }
 
     // Create modern modal container
@@ -162,8 +188,11 @@ export default function PricingPage() {
       min-height: 400px;
     `
 
+    // Generate unique ID for this payment session
+    const uniqueId = `iyzipay-checkout-form-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+    
     const formDiv = document.createElement('div')
-    formDiv.id = 'iyzipay-checkout-form'
+    formDiv.id = uniqueId
     formDiv.className = 'responsive'
     formDiv.style.cssText = `
       border-radius: 0 0 16px 16px;
@@ -201,9 +230,16 @@ export default function PricingPage() {
       modalContent.style.transform = 'scale(1) translateY(0)'
     }, 10)
 
-    // Execute Iyzico script
+    // Execute Iyzico script with unique ID replacement
     const script = document.createElement('script')
-    script.innerHTML = htmlContent.replace('<script type="text/javascript">', '').replace('</script>', '')
+    let scriptContent = htmlContent.replace('<script type="text/javascript">', '').replace('</script>', '')
+    
+    // Replace the default iyzipay-checkout-form ID with our unique ID
+    scriptContent = scriptContent.replace(/['"]iyzipay-checkout-form['"]/g, `"${uniqueId}"`)
+    scriptContent = scriptContent.replace(/getElementById\(['"]iyzipay-checkout-form['"]\)/g, `getElementById("${uniqueId}")`)
+    
+    script.innerHTML = scriptContent
+    script.setAttribute('data-iyzico-script', 'true') // Mark for easy cleanup
     document.body.appendChild(script)
   }
 
