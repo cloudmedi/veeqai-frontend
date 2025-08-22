@@ -135,32 +135,53 @@ export default function PricingPage() {
     }, 10)
 
     // Initialize Iyzico form with API token
+    console.log('🔑 Initializing payment with token:', token.substring(0, 20) + '...')
     loadIyzicoSDK(() => {
-      (window as any).iyzipay.checkoutForm.init({
-        token: token,
-        containerId: 'iyzico-form-container',
-        callbackName: 'iyzicoCallback'
-      })
+      console.log('📦 Iyzico SDK loaded, initializing form')
+      try {
+        (window as any).iyzipay.checkoutForm.init({
+          token: token,
+          containerId: 'iyzico-form-container',
+          callbackName: 'iyzicoCallback'
+        })
+        console.log('✅ Iyzico form initialized successfully')
+      } catch (error) {
+        console.error('❌ Iyzico initialization failed:', error)
+        alert('Ödeme formu yüklenemedi: ' + error.message)
+      }
     })
   }
 
   // Load Iyzico SDK
   const loadIyzicoSDK = (callback: () => void) => {
+    console.log('🚀 Loading Iyzico SDK...')
+    
     if ((window as any).iyzipay) {
+      console.log('✅ Iyzico SDK already loaded')
       callback()
       return
     }
 
     const script = document.createElement('script')
     script.src = 'https://static.iyzipay.com/checkoutform/api/js/iyzipay-checkout-form-1.0.0.js'
-    script.onload = callback
+    script.onload = () => {
+      console.log('✅ Iyzico SDK loaded from CDN')
+      callback()
+    }
+    script.onerror = () => {
+      console.error('❌ Failed to load Iyzico SDK')
+      alert('Ödeme sistemi yüklenemedi. Lütfen sayfayı yenileyin.')
+    }
     document.head.appendChild(script)
 
     // Global callback for payment result
     ;(window as any).iyzicoCallback = (result: any) => {
+      console.log('💳 Payment callback received:', result)
       if (result.status === 'success') {
-        window.location.reload() // Redirect to success
+        console.log('✅ Payment successful, reloading page')
+        window.location.reload()
       } else {
+        console.error('❌ Payment failed:', result.errorMessage)
         alert('Ödeme başarısız: ' + result.errorMessage)
       }
     }
