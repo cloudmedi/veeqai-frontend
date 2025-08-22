@@ -44,57 +44,24 @@ export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
-  // Iyzico official popup integration - Let Iyzico handle everything
+  // Iyzico native popup integration - Let Iyzico handle everything
   const openIyzicoPopup = (htmlContent: string) => {
     // Clean up any existing elements
     const existingDiv = document.getElementById('iyzipay-checkout-form')
     if (existingDiv) {
-      existingDiv.parentElement?.remove() // Remove container
+      existingDiv.remove()
     }
 
-    // Create container for Iyzico responsive form 
-    const container = document.createElement('div')
-    container.style.position = 'fixed'
-    container.style.top = '0'
-    container.style.left = '0'
-    container.style.width = '100vw'
-    container.style.height = '100vh'
-    container.style.backgroundColor = 'rgba(0,0,0,0.8)'
-    container.style.zIndex = '9999'
-    container.style.display = 'flex'
-    container.style.alignItems = 'center'
-    container.style.justifyContent = 'center'
-    
+    // Create simple div for Iyzico popup mode
     const formDiv = document.createElement('div')
     formDiv.id = 'iyzipay-checkout-form'
-    formDiv.className = 'responsive'
-    formDiv.style.maxWidth = '500px'
-    formDiv.style.width = '90%'
-    formDiv.style.backgroundColor = 'white'
-    formDiv.style.borderRadius = '12px'
-    formDiv.style.overflow = 'hidden'
-    
-    container.appendChild(formDiv)
-    document.body.appendChild(container)
+    formDiv.className = 'popup'
+    document.body.appendChild(formDiv)
 
-    // Simply execute the script - Iyzico will handle modal display
+    // Execute Iyzico script - it will handle popup display and close logic
     const script = document.createElement('script')
     script.innerHTML = htmlContent.replace('<script type="text/javascript">', '').replace('</script>', '')
     document.body.appendChild(script)
-
-    // Clean up after payment (listen for Iyzico events)
-    setTimeout(() => {
-      // Check if payment completed and clean up
-      const checkPaymentComplete = setInterval(() => {
-        const formElement = document.getElementById('iyzipay-checkout-form')
-        if (!formElement || formElement.children.length === 0) {
-          clearInterval(checkPaymentComplete)
-          // Remove container and reload
-          formElement?.parentElement?.remove()
-          window.location.reload()
-        }
-      }, 2000)
-    }, 5000)
   }
 
 
