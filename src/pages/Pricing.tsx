@@ -139,11 +139,25 @@ export default function PricingPage() {
     loadIyzicoSDK(() => {
       console.log('📦 Iyzico SDK loaded, initializing form')
       try {
-        (window as any).iyzipay.checkoutForm.init({
-          token: token,
-          containerId: 'iyzico-form-container',
-          callbackName: 'iyzicoCallback'
-        })
+        console.log('🔍 Available Iyzico methods:', Object.keys((window as any).iyzipay || {}))
+        
+        // İyzico SDK farklı API kullanıyor olabilir
+        if ((window as any).iyzipay?.init) {
+          (window as any).iyzipay.init({
+            token: token,
+            containerId: 'iyzico-form-container',
+            callbackName: 'iyzicoCallback'
+          })
+        } else if ((window as any).IyzipayCheckoutForm) {
+          (window as any).IyzipayCheckoutForm.init({
+            token: token,
+            containerId: 'iyzico-form-container',
+            callbackName: 'iyzicoCallback'
+          })
+        } else {
+          console.error('❌ Iyzico API not found. Available:', (window as any).iyzipay)
+          alert('İyzico API bulunamadı. Lütfen sayfayı yenileyin.')
+        }
         console.log('✅ Iyzico form initialized successfully')
       } catch (error) {
         console.error('❌ Iyzico initialization failed:', error)
