@@ -44,42 +44,36 @@ export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
-  // Iyzico official popup integration
+  // Iyzico official popup integration - Let Iyzico handle everything
   const openIyzicoPopup = (htmlContent: string) => {
-    // Create div for Iyzico popup as per official docs
-    let existingDiv = document.getElementById('iyzipay-checkout-form')
+    // Clean up any existing elements
+    const existingDiv = document.getElementById('iyzipay-checkout-form')
     if (existingDiv) {
       existingDiv.remove()
     }
 
+    // Create div for Iyzico popup (Iyzico will style this)
     const popupDiv = document.createElement('div')
     popupDiv.id = 'iyzipay-checkout-form'
-    popupDiv.className = 'popup' // Official Iyzico popup class
+    popupDiv.className = 'popup'
     document.body.appendChild(popupDiv)
 
-    // Create temporary container to parse HTML content
-    const tempContainer = document.createElement('div')
-    tempContainer.innerHTML = htmlContent
+    // Simply execute the script - Iyzico will handle modal display
+    const script = document.createElement('script')
+    script.innerHTML = htmlContent.replace('<script type="text/javascript">', '').replace('</script>', '')
+    document.body.appendChild(script)
 
-    // Extract and execute scripts from checkoutFormContent
-    const scripts = tempContainer.getElementsByTagName('script')
-    Array.from(scripts).forEach((script) => {
-      const newScript = document.createElement('script')
-      
-      if (script.src) {
-        // External script
-        newScript.src = script.src
-        newScript.async = true
-      } else {
-        // Inline script - contains iyziInit function
-        newScript.text = script.innerHTML
-      }
-      
-      document.head.appendChild(newScript)
-    })
-
-    // Remove temporary container
-    tempContainer.remove()
+    // Clean up after payment (listen for Iyzico events)
+    setTimeout(() => {
+      // Check if payment completed and clean up
+      const checkPaymentComplete = setInterval(() => {
+        if (!document.getElementById('iyzipay-checkout-form') || 
+            document.getElementById('iyzipay-checkout-form').children.length === 0) {
+          clearInterval(checkPaymentComplete)
+          window.location.reload()
+        }
+      }, 2000)
+    }, 5000)
   }
 
 
