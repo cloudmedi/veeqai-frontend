@@ -147,7 +147,7 @@ export default function PricingPage() {
         console.log('✅ Iyzico form initialized successfully')
       } catch (error) {
         console.error('❌ Iyzico initialization failed:', error)
-        alert('Ödeme formu yüklenemedi: ' + error.message)
+        alert('Ödeme formu yüklenemedi: ' + (error instanceof Error ? error.message : 'Bilinmeyen hata'))
       }
     })
   }
