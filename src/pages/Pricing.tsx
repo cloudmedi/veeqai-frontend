@@ -228,7 +228,7 @@ export default function PricingPage() {
 
   const fetchPlans = async () => {
     try {
-      const response = await apiClient.get('/payment/plans-test')
+      const response = await apiClient.get('/payment/plans')
       // apiClient already extracts data.data, so response IS the data object
       const plansData = (response as any)?.plans || []
       setPlans(plansData)
