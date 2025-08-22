@@ -62,13 +62,13 @@ export default function PricingPage() {
             </div>
             <button class="close-btn">✕</button>
           </div>
-          <div class="iframe-container">
+          <div class="iframe-container" style="padding: 0; overflow-y: auto; max-height: calc(90vh - 80px);">
             <iframe 
               src="${paymentPageUrl}&iframe=true" 
               frameborder="0"
-              scrolling="auto"
+              scrolling="no"
               id="iyzico-payment-iframe"
-              style="width: 100%; height: 600px; border: none;">
+              style="width: 100%; min-height: 600px; height: 100%; border: none; border-radius: 0 0 16px 16px;">
             </iframe>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default function PricingPage() {
     
     const content = modal.querySelector('.modal-content') as HTMLElement
     content.style.cssText = `
-      background: white; border-radius: 16px; max-width: 800px; width: 95%;
+      background: white; border-radius: 16px; max-width: 500px; width: 90%;
       max-height: 90vh; overflow: hidden;
       box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
       transform: scale(0.95) translateY(20px); transition: all 0.3s ease;
