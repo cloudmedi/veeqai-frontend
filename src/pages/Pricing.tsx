@@ -196,9 +196,9 @@ export default function PricingPage() {
             expireYear: '20' + cardExpiry.split('/')[1],
             cvc: cardCvv
           }
-        })
+        }) as any
 
-        if (response.status === 'success') {
+        if (response?.status === 'success') {
           closeModal()
           alert('Ödeme başarılı!')
           window.location.reload()
