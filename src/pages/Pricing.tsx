@@ -57,13 +57,25 @@ export default function PricingPage() {
       `
       
       // Insert the iyzico checkout form HTML
-      container.innerHTML = `
-        <div style="background: white; border-radius: 16px; max-width: 500px; width: 90%; max-height: 85vh; overflow: auto;">
-          ${checkoutFormContent}
-        </div>
+      const formWrapper = document.createElement('div')
+      formWrapper.style.cssText = `
+        background: white; border-radius: 16px; max-width: 500px; 
+        width: 90%; max-height: 85vh; overflow: auto; padding: 20px;
       `
+      formWrapper.innerHTML = checkoutFormContent
+      container.appendChild(formWrapper)
       
       document.body.appendChild(container)
+      
+      // Execute iyzico script after DOM insertion
+      setTimeout(() => {
+        const scripts = formWrapper.getElementsByTagName('script')
+        for (let script of scripts) {
+          const newScript = document.createElement('script')
+          newScript.text = script.innerHTML
+          document.head.appendChild(newScript)
+        }
+      }, 100)
       
       // Add close functionality
       container.addEventListener('click', (e) => {
