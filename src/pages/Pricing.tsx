@@ -162,18 +162,15 @@ export default function PricingPage() {
       }) as any
 
       console.log('Payment API Response:', response)
-      console.log('Response data:', response.data)
 
-      // Try multiple possible response structures
-      const paymentUrl = response.data?.paymentPageUrl || response.paymentPageUrl || response.data?.data?.paymentPageUrl
-
-      if (response.success && paymentUrl) {
-        // Redirect to Iyzico payment page
-        console.log('Redirecting to payment page:', paymentUrl)
-        window.location.href = paymentUrl
+      // apiClient.post returns data.data directly (see api-client.ts line 238)
+      // So response IS the payment data: {conversationId, paymentPageUrl, token}
+      if (response.paymentPageUrl) {
+        console.log('Redirecting to payment page:', response.paymentPageUrl)
+        window.location.href = response.paymentPageUrl
       } else {
         console.error('Payment URL not found in response:', response)
-        throw new Error(response.message || 'Payment initialization failed')
+        throw new Error('Payment initialization failed - no payment URL')
       }
 
     } catch (error: any) {
