@@ -50,27 +50,27 @@ export default function PricingPage() {
       // Clean up any existing iyzico elements
       document.querySelectorAll('[id*="iyzico"], [class*="iyzico"]').forEach(el => el.remove())
       
-      // Create a hidden div to execute iyzico script
-      const hiddenDiv = document.createElement('div')
-      hiddenDiv.style.display = 'none'
-      hiddenDiv.innerHTML = checkoutFormContent
-      document.body.appendChild(hiddenDiv)
+      // Create a container div for iyzico
+      const iyzicoContainer = document.createElement('div')
+      iyzicoContainer.id = 'iyzipay-checkout-form'
+      iyzicoContainer.className = 'popup'
+      document.body.appendChild(iyzicoContainer)
       
-      // Execute iyzico script - this will open their own popup
-      setTimeout(() => {
-        const scripts = hiddenDiv.getElementsByTagName('script')
-        for (let script of scripts) {
-          try {
-            eval(script.innerHTML) // Execute iyzico initialization
-          } catch (e) {
-            console.log('Script execution:', e)
-          }
-        }
-        // Remove hidden div after script execution
-        setTimeout(() => hiddenDiv.remove(), 1000)
-      }, 100)
-      
-      console.log('Iyzico script executed - popup should open')
+      // Execute iyzico script content directly
+      const scriptMatch = checkoutFormContent.match(/<script[^>]*>([\s\S]*?)<\/script>/i)
+      if (scriptMatch && scriptMatch[1]) {
+        const scriptContent = scriptMatch[1]
+        
+        // Create and execute script in global context
+        const scriptElement = document.createElement('script')
+        scriptElement.type = 'text/javascript'
+        scriptElement.text = scriptContent
+        document.head.appendChild(scriptElement)
+        
+        console.log('Iyzico script injected to page')
+      } else {
+        console.error('No script found in checkout form content')
+      }
     } catch (error) {
       console.error('Failed to open iyzico checkout:', error)
       alert('Payment form could not be opened. Please try again.')
