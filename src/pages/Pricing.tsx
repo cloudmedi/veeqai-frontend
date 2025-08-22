@@ -52,10 +52,10 @@ export default function PricingPage() {
       existingDiv.remove()
     }
 
-    // Create div for Iyzico popup (Iyzico will style this)
+    // Create div for Iyzico responsive form (full page, mobile-friendly)
     const popupDiv = document.createElement('div')
     popupDiv.id = 'iyzipay-checkout-form'
-    popupDiv.className = 'popup'
+    popupDiv.className = 'responsive'
     document.body.appendChild(popupDiv)
 
     // Simply execute the script - Iyzico will handle modal display
