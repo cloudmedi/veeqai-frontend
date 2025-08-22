@@ -44,21 +44,164 @@ export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
-  // Iyzico native popup integration - Let Iyzico handle everything
+  // VeeqAI custom payment modal with modern design
   const openIyzicoPopup = (htmlContent: string) => {
     // Clean up any existing elements
-    const existingDiv = document.getElementById('iyzipay-checkout-form')
-    if (existingDiv) {
-      existingDiv.remove()
+    const existingContainer = document.querySelector('.veeq-payment-modal')
+    if (existingContainer) {
+      existingContainer.remove()
     }
 
-    // Create div for Iyzico popup mode
+    // Create modern modal container
+    const modalContainer = document.createElement('div')
+    modalContainer.className = 'veeq-payment-modal'
+    modalContainer.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    `
+
+    // Create modal content
+    const modalContent = document.createElement('div')
+    modalContent.className = 'veeq-payment-content'
+    modalContent.style.cssText = `
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow: hidden;
+      position: relative;
+      transform: scale(0.95) translateY(20px);
+      transition: all 0.3s ease;
+    `
+
+    // Create header with VeeqAI branding
+    const header = document.createElement('div')
+    header.style.cssText = `
+      padding: 24px 24px 16px 24px;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    `
+
+    const title = document.createElement('div')
+    title.style.cssText = `
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 18px;
+      color: #1e293b;
+    `
+    
+    const logo = document.createElement('div')
+    logo.className = 'veeq-logo'
+    logo.textContent = 'VeeqAI'
+    logo.style.cssText = `
+      font-size: 16px;
+      font-weight: 700;
+      color: #6366f1;
+    `
+
+    const titleText = document.createElement('span')
+    titleText.textContent = 'Güvenli Ödeme'
+
+    title.appendChild(logo)
+    title.appendChild(titleText)
+
+    // Create close button
+    const closeBtn = document.createElement('button')
+    closeBtn.innerHTML = '✕'
+    closeBtn.style.cssText = `
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #64748b;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      transition: all 0.2s ease;
+    `
+    
+    closeBtn.addEventListener('mouseenter', () => {
+      closeBtn.style.background = '#f1f5f9'
+      closeBtn.style.color = '#1e293b'
+    })
+    
+    closeBtn.addEventListener('mouseleave', () => {
+      closeBtn.style.background = 'none'
+      closeBtn.style.color = '#64748b'
+    })
+
+    header.appendChild(title)
+    header.appendChild(closeBtn)
+
+    // Create payment form container
+    const formContainer = document.createElement('div')
+    formContainer.style.cssText = `
+      padding: 0;
+      min-height: 400px;
+    `
+
     const formDiv = document.createElement('div')
     formDiv.id = 'iyzipay-checkout-form'
-    formDiv.className = 'popup'
-    document.body.appendChild(formDiv)
+    formDiv.className = 'responsive'
+    formDiv.style.cssText = `
+      border-radius: 0 0 16px 16px;
+      overflow: hidden;
+    `
 
-    // Execute Iyzico script - it will handle popup display and close logic
+    formContainer.appendChild(formDiv)
+    modalContent.appendChild(header)
+    modalContent.appendChild(formContainer)
+    modalContainer.appendChild(modalContent)
+    document.body.appendChild(modalContainer)
+
+    // Close modal function
+    const closeModal = () => {
+      modalContainer.style.opacity = '0'
+      modalContent.style.transform = 'scale(0.95) translateY(20px)'
+      setTimeout(() => {
+        modalContainer.remove()
+      }, 300)
+    }
+
+    // Event listeners
+    closeBtn.addEventListener('click', closeModal)
+    modalContainer.addEventListener('click', (e) => {
+      if (e.target === modalContainer) closeModal()
+    })
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal()
+    })
+
+    // Animate in
+    setTimeout(() => {
+      modalContainer.style.opacity = '1'
+      modalContent.style.transform = 'scale(1) translateY(0)'
+    }, 10)
+
+    // Execute Iyzico script
     const script = document.createElement('script')
     script.innerHTML = htmlContent.replace('<script type="text/javascript">', '').replace('</script>', '')
     document.body.appendChild(script)

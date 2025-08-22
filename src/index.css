@@ -20,16 +20,7 @@
   background: hsl(var(--muted-foreground) / 0.5);
 }
 
-/* Iyzico popup styling override */
-#iyzipay-checkout-form.popup {
-  max-width: 700px !important;
-  width: 95% !important;
-}
-
-#iyzipay-checkout-form.popup iframe {
-  min-width: 600px !important;
-  width: 100% !important;
-}
+/* Let Iyzico handle its own popup styling */
 
 /* Volume slider styling */
 .slider::-webkit-slider-thumb {
