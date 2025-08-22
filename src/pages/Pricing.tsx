@@ -43,6 +43,7 @@ export default function PricingPage() {
   const [plans, setPlans] = useState<Plan[]>([])
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [paymentLoading, setPaymentLoading] = useState<string | null>(null)
 
   // Iyzico official popup integration - Let Iyzico handle everything
   const openIyzicoPopup = (htmlContent: string) => {
@@ -201,6 +202,8 @@ export default function PricingPage() {
         return
       }
 
+      // Set loading state for this specific plan
+      setPaymentLoading(planId)
       console.log('Initiating payment for plan:', planId)
       
       // Call payment initiate API
@@ -221,11 +224,14 @@ export default function PricingPage() {
       if (response.checkoutFormContent) {
         console.log('Opening Iyzico native popup')
         openIyzicoPopup(response.checkoutFormContent)
+        // Keep loading state until popup opens
+        setTimeout(() => setPaymentLoading(null), 1000)
       } else if (response.paymentPageUrl) {
         console.log('Redirecting to payment page:', response.paymentPageUrl)
         window.location.href = response.paymentPageUrl
       } else {
         console.error('Payment data not found in response:', response)
+        setPaymentLoading(null)
         throw new Error('Payment initialization failed - no payment data')
       }
 
@@ -236,6 +242,7 @@ export default function PricingPage() {
         response: error.response?.data,
         status: error.response?.status
       })
+      setPaymentLoading(null) // Clear loading state on error
       alert(`Payment could not be initiated. Error: ${error.message || 'Unknown error'}`)
     }
   }
@@ -541,10 +548,10 @@ export default function PricingPage() {
                   <div className="mt-auto">
                     <button
                     onClick={() => handleSubscribe(plan._id || plan.id || '')}
-                    disabled={!!isCurrentPlan}
+                    disabled={!!isCurrentPlan || paymentLoading === (plan._id || plan.id)}
                     className={`w-full py-4 px-6 rounded-xl font-semibold tracking-wide text-sm transition-all duration-300 ${
-                      isCurrentPlan
-                        ? 'bg-background dark:bg-white/10 text-foreground border-2 border-border dark:border-white/30 cursor-not-allowed'
+                      isCurrentPlan || paymentLoading === (plan._id || plan.id)
+                        ? 'bg-background dark:bg-white/10 text-foreground border-2 border-border dark:border-white/30 cursor-not-allowed opacity-50'
                         : (plan.display?.popular || plan.isPopular)
                         ? 'bg-gradient-to-r from-primary to-purple-600 dark:from-gray-950 dark:to-purple-900 hover:from-primary/90 hover:to-purple-600/90 dark:hover:from-gray-900 dark:hover:to-purple-800 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/30 dark:before:via-white/20 before:to-transparent before:w-12 before:h-full before:transform before:-translate-x-full before:animate-[shimmer_5s_infinite] before:skew-x-12'
                         : isFree
@@ -552,14 +559,20 @@ export default function PricingPage() {
                         : 'bg-primary hover:bg-primary/90 text-primary-foreground'
                     }`}
                   >
-                    {isCurrentPlan
-                      ? t('pricing.currentPlan')
-                      : user && !isFree
-                      ? t('pricing.upgradeTo', { plan: i18n.language === 'tr' ? translatePlanName(plan.displayName) : plan.displayName })
-                      : isFree
-                      ? t('pricing.getStartedFree')
-                      : t('pricing.upgradeTo', { plan: i18n.language === 'tr' ? translatePlanName(plan.displayName) : plan.displayName })
-                    }
+                    {paymentLoading === (plan._id || plan.id) ? (
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+                        <span>{i18n.language === 'tr' ? 'İşleniyor...' : 'Processing...'}</span>
+                      </div>
+                    ) : isCurrentPlan ? (
+                      t('pricing.currentPlan')
+                    ) : user && !isFree ? (
+                      t('pricing.upgradeTo', { plan: i18n.language === 'tr' ? translatePlanName(plan.displayName) : plan.displayName })
+                    ) : isFree ? (
+                      t('pricing.getStartedFree')
+                    ) : (
+                      t('pricing.upgradeTo', { plan: i18n.language === 'tr' ? translatePlanName(plan.displayName) : plan.displayName })
+                    )}
                     </button>
                   </div>
                 </div>
