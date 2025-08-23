@@ -54,14 +54,14 @@ export default function LoginPage() {
             sitekey: '0x4AAAAAABuWBK_QlgGuxtvd',
             callback: (token: string) => {
               setTurnstileToken(token)
-              console.log('✅ Turnstile completed (invisible):', token)
+              console.log('✅ Turnstile completed (compact):', token)
             },
             'expired-callback': () => {
               setTurnstileToken("")
               console.log('⏰ Turnstile expired')
             },
             theme: 'auto',
-            size: 'invisible'
+            size: 'compact'
           });
         } catch (error) {
           console.log('❌ Turnstile render error:', error);
@@ -186,9 +186,9 @@ export default function LoginPage() {
         throw new Error(`Too many login attempts. Please try again in ${timeRemaining}.`);
       }
 
-      // Invisible Turnstile - trigger and wait for token
+      // Compact Turnstile - trigger and wait for token
       if (!turnstileToken && (window as any).turnstile) {
-        // Trigger invisible challenge
+        // Trigger compact challenge
         try {
           const widget = document.querySelector('.cf-turnstile');
           if (widget) {
@@ -337,7 +337,7 @@ export default function LoginPage() {
               data-callback="onTurnstileSuccess"
               data-expired-callback="onTurnstileExpired"
               data-theme="auto"
-              data-size="invisible"
+              data-size="compact"
             ></div>
 
             {/* Submit Button */}
