@@ -29,53 +29,6 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
-  const [turnstileToken, setTurnstileToken] = useState("")
-
-  // Turnstile callback fonksiyonları ve manuel render
-  useEffect(() => {
-    // Global callback fonksiyonlarını tanımla
-    (window as any).onTurnstileSuccess = (token: string) => {
-      setTurnstileToken(token)
-      console.log('✅ Turnstile completed:', token)
-    }
-
-    (window as any).onTurnstileExpired = () => {
-      setTurnstileToken("")
-      console.log('⏰ Turnstile expired')
-    }
-
-    // Manuel render için biraz bekle
-    const timer = setTimeout(() => {
-      const widget = document.querySelector('.cf-turnstile');
-      if (widget && (window as any).turnstile) {
-        console.log('🔧 Manual Turnstile render...');
-        try {
-          (window as any).turnstile.render('.cf-turnstile', {
-            sitekey: '0x4AAAAAABuWBK_QlgGuxtvd',
-            callback: (token: string) => {
-              setTurnstileToken(token)
-              console.log('✅ Turnstile completed (compact):', token)
-            },
-            'expired-callback': () => {
-              setTurnstileToken("")
-              console.log('⏰ Turnstile expired')
-            },
-            theme: 'auto',
-            size: 'compact'
-          });
-        } catch (error) {
-          console.log('❌ Turnstile render error:', error);
-        }
-      }
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer);
-      // Cleanup
-      delete (window as any).onTurnstileSuccess
-      delete (window as any).onTurnstileExpired
-    }
-  }, [])
 
   // Load remembered email on component mount
   useEffect(() => {
@@ -186,23 +139,7 @@ export default function LoginPage() {
         throw new Error(`Too many login attempts. Please try again in ${timeRemaining}.`);
       }
 
-      // Compact Turnstile - trigger and wait for token
-      if (!turnstileToken && (window as any).turnstile) {
-        // Trigger compact challenge
-        try {
-          const widget = document.querySelector('.cf-turnstile');
-          if (widget) {
-            (window as any).turnstile.execute(widget);
-            // Wait briefly for token
-            await new Promise(resolve => setTimeout(resolve, 500));
-          }
-        } catch (error) {
-          console.log('Turnstile execute error:', error);
-        }
-      }
-
-      // If still no token after triggering, proceed anyway (fallback)
-      const success = await login(validatedEmail, password, rememberMe, turnstileToken || '')
+      const success = await login(validatedEmail, password, rememberMe)
       if (success) {
         // Save email if remember me is checked
         if (rememberMe) {
@@ -330,15 +267,6 @@ export default function LoginPage() {
               </div>
             )}
 
-            {/* Cloudflare Turnstile - Invisible Mode */}
-            <div 
-              className="cf-turnstile" 
-              data-sitekey="0x4AAAAAABuWBK_QlgGuxtvd"
-              data-callback="onTurnstileSuccess"
-              data-expired-callback="onTurnstileExpired"
-              data-theme="auto"
-              data-size="compact"
-            ></div>
 
             {/* Submit Button */}
             <button
