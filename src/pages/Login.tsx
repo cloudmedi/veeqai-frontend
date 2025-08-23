@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { useTranslation } from 'react-i18next'
 import { Mail, Lock, Volume2, Mic, Headphones } from "lucide-react"
-// Google and GitHub icons as inline SVG components
+// Google icon as inline SVG component
 const GoogleIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -12,11 +12,6 @@ const GoogleIcon = () => (
   </svg>
 )
 
-const GitHubIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
-  </svg>
-)
 import { useAuth } from "@/contexts/AuthContext"
 import { InputValidator, ValidationError } from "@/lib/validation"
 import { RateLimiter } from "@/lib/rate-limiter"
@@ -168,6 +163,8 @@ export default function LoginPage() {
     }, 1000);
   };
 
+
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -242,12 +239,36 @@ export default function LoginPage() {
       {/* Left Side - Login Form */}
       <div className="flex-1 flex items-center justify-center px-8">
         <div className="w-full max-w-md">
+          {/* Logo */}
+          <div className="mb-8 flex justify-center">
+            <Logo variant="black" width={120} height={40} />
+          </div>
+          
           {/* Welcome Text */}
-          <div className="mb-8">
+          <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold mb-2">{t('auth.welcomeBack')}</h1>
-            <p className="text-muted-foreground">
-              {t('auth.signInSubtitle')}
-            </p>
+          </div>
+
+          {/* Google Login Button - Top Position */}
+          <div className="mb-6">
+            <button 
+              type="button"
+              onClick={handleGoogleLogin}
+              className="w-full flex items-center justify-center gap-2 py-2.5 border border-border rounded-lg hover:bg-accent transition-colors font-medium"
+            >
+              <GoogleIcon />
+              {t('auth.google')}
+            </button>
+            
+            {/* Divider */}
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-border"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-background text-muted-foreground">{t('auth.orContinueWith')}</span>
+              </div>
+            </div>
           </div>
 
           {/* Login Form */}
@@ -327,35 +348,6 @@ export default function LoginPage() {
             >
               {isLoading ? t('auth.signingIn') : t('common.login')}
             </button>
-
-            {/* Divider */}
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-border"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-background text-muted-foreground">{t('auth.orContinueWith')}</span>
-              </div>
-            </div>
-
-            {/* Social Login */}
-            <div className="grid grid-cols-2 gap-3">
-              <button 
-                type="button"
-                onClick={handleGoogleLogin}
-                className="flex items-center justify-center gap-2 py-2.5 border border-border rounded-lg hover:bg-accent transition-colors font-medium"
-              >
-                <GoogleIcon />
-                {t('auth.google')}
-              </button>
-              <button 
-                type="button"
-                className="flex items-center justify-center gap-2 py-2.5 border border-border rounded-lg hover:bg-accent transition-colors font-medium"
-              >
-                <GitHubIcon />
-                {t('auth.github')}
-              </button>
-            </div>
           </form>
 
           {/* Sign Up Link */}
@@ -371,10 +363,6 @@ export default function LoginPage() {
       {/* Right Side - Feature Showcase */}
       <div className="hidden lg:flex flex-1 bg-gradient-to-br from-purple-600/10 to-pink-600/10 items-center justify-center relative overflow-hidden">
         <div className="relative z-10 text-center px-8">
-          {/* Logo */}
-          <div className="mb-8 text-center">
-            <Logo variant="black" className="mx-auto" width={120} height={40} />
-          </div>
           <div className="mb-8">
             {/* Audio Wave Animation */}
             <div className="flex items-center justify-center gap-2 mb-8">
