@@ -18,6 +18,7 @@ interface SessionState {
   warningShown: boolean;
   timeoutId: NodeJS.Timeout | null;
   warningTimeoutId: NodeJS.Timeout | null;
+  periodicCheckId: NodeJS.Timeout | null;
 }
 
 export class SessionManager {
@@ -42,7 +43,8 @@ export class SessionManager {
       isActive: false,
       warningShown: false,
       timeoutId: null,
-      warningTimeoutId: null
+      warningTimeoutId: null,
+      periodicCheckId: null
     };
   }
 
@@ -92,8 +94,9 @@ export class SessionManager {
       document.removeEventListener(event, this.handleActivity.bind(this), true);
     });
 
-    // Clear timeouts
+    // Clear timeouts and intervals
     this.clearTimeouts();
+    this.clearPeriodicCheck();
   }
 
   /**
@@ -147,6 +150,16 @@ export class SessionManager {
     if (this.state.warningTimeoutId) {
       clearTimeout(this.state.warningTimeoutId);
       this.state.warningTimeoutId = null;
+    }
+  }
+
+  /**
+   * 🧹 Clear periodic check interval (like super admin fix)
+   */
+  private clearPeriodicCheck(): void {
+    if (this.state.periodicCheckId) {
+      clearInterval(this.state.periodicCheckId);
+      this.state.periodicCheckId = null;
     }
   }
 
@@ -213,10 +226,13 @@ export class SessionManager {
   }
 
   /**
-   * ⚡ Start periodic session validation
+   * ⚡ Start periodic session validation (with enterprise cleanup like super admin)
    */
   private startPeriodicCheck(): void {
-    setInterval(() => {
+    // ✅ Clear existing interval to prevent duplicates (super admin pattern)
+    this.clearPeriodicCheck();
+    
+    this.state.periodicCheckId = setInterval(() => {
       if (!this.state.isActive) return;
 
       const now = Date.now();

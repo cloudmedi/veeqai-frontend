@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react'
 import { RateLimiter } from '@/lib/rate-limiter'
 import { sessionManager } from '@/lib/session-manager'
 import { activityMonitor } from '@/lib/activity-monitor'
@@ -31,6 +31,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null)
   const [refreshToken, setRefreshToken] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  
+  // ✅ Cleanup timers to prevent memory leaks and race conditions
+  const retryTimerRef = useRef<NodeJS.Timeout | null>(null)
+  
+  // ✅ Clear any existing retry timers
+  const clearRetryTimer = () => {
+    if (retryTimerRef.current) {
+      clearTimeout(retryTimerRef.current)
+      retryTimerRef.current = null
+    }
+  }
 
   // ✅ Environment-based API URL
   const API_URL = import.meta.env.VITE_API_URL || '${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/api'
@@ -128,8 +139,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               setRefreshToken(savedRefreshToken)
               setUser(JSON.parse(savedUser))
               
-              // Retry validation after 5 seconds
-              setTimeout(() => {
+              // ✅ Retry validation after 5 seconds with cleanup
+              clearRetryTimer()
+              retryTimerRef.current = setTimeout(() => {
                 validateToken()
               }, 5000)
             } else {
@@ -158,8 +170,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           sessionManager.start()
           activityMonitor.start(JSON.parse(savedUser).id)
           
-          // Retry validation after 3 seconds
-          setTimeout(() => {
+          // ✅ Retry validation after 3 seconds with cleanup
+          clearRetryTimer()
+          retryTimerRef.current = setTimeout(() => {
             validateToken()
           }, 3000)
         }
@@ -324,6 +337,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     try {
+      // ✅ Clear retry timers first to prevent race conditions
+      clearRetryTimer()
+      
       // ✅ Revoke session on server (if we have a token)
       if (token) {
         await fetch(`${API_URL}/auth/logout`, {
