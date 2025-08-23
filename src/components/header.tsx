@@ -37,8 +37,8 @@ export default function Header() {
     return path
   }
 
-  const handleLogout = () => {
-    logout()
+  const handleLogout = async () => {
+    await logout()
     navigate(getPath("/login"))
   }
 

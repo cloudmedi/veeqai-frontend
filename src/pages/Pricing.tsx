@@ -44,44 +44,60 @@ export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
-  // Open iyzico checkout form
-  const openIyzicoCheckout = (checkoutFormContent: string) => {
-    try {
-      // Clean up any existing iyzico elements
-      document.querySelectorAll('[id*="iyzico"], [class*="iyzico"]').forEach(el => el.remove())
+  // Clean up iyzico resources completely
+  const cleanupIyzico = () => {
+    // Remove all iyzico DOM elements
+    document.querySelectorAll('[id*="iyzico"], [class*="iyzico"], [id*="iyzipay"]').forEach(el => el.remove())
+    
+    // Remove all iyzico scripts
+    document.querySelectorAll('script[src*="iyzipay"], script[src*="iyzico"]').forEach(el => el.remove())
+    
+    // Clear all potential iyzico global variables
+    if (typeof window !== 'undefined') {
+      const iyzicoVars = ['iyziInit', 'iyzico', 'iyziCheckout', 'iyzicoCard', 'iyzicoToken', 'iyzicoPayment']
+      iyzicoVars.forEach(varName => {
+        // @ts-ignore
+        window[varName] = undefined
+        // @ts-ignore
+        delete window[varName]
+      })
       
-      // Create a container div for iyzico
-      const iyzicoContainer = document.createElement('div')
-      iyzicoContainer.id = 'iyzipay-checkout-form'
-      iyzicoContainer.className = 'popup'
-      document.body.appendChild(iyzicoContainer)
-      
-      // Execute iyzico script content directly
-      const scriptMatch = checkoutFormContent.match(/<script[^>]*>([\s\S]*?)<\/script>/i)
-      if (scriptMatch && scriptMatch[1]) {
-        const scriptContent = scriptMatch[1]
-        
-        // Create and execute script in global context
-        const scriptElement = document.createElement('script')
-        scriptElement.type = 'text/javascript'
-        scriptElement.text = scriptContent
-        document.head.appendChild(scriptElement)
-        
-        console.log('Iyzico script injected to page')
-      } else {
-        console.error('No script found in checkout form content')
+      // Clear any cached fetch requests or tokens
+      if (sessionStorage) {
+        const keys = Object.keys(sessionStorage)
+        keys.forEach(key => {
+          if (key.toLowerCase().includes('iyzico') || key.toLowerCase().includes('payment')) {
+            sessionStorage.removeItem(key)
+          }
+        })
       }
-    } catch (error) {
-      console.error('Failed to open iyzico checkout:', error)
-      alert('Payment form could not be opened. Please try again.')
+      
+      if (localStorage) {
+        const keys = Object.keys(localStorage)
+        keys.forEach(key => {
+          if (key.toLowerCase().includes('iyzico') || key.toLowerCase().includes('payment')) {
+            localStorage.removeItem(key)
+          }
+        })
+      }
     }
+    
+    console.log('🧹 Complete Iyzico cleanup completed')
   }
 
 
 
+
   useEffect(() => {
+    // Clean up any leftover iyzico state on component mount
+    cleanupIyzico()
     fetchPlans()
     // WebSocket connection removed - not needed for pricing page
+    
+    // Cleanup on unmount
+    return () => {
+      cleanupIyzico()
+    }
   }, [])
 
   const fetchPlans = async () => {
@@ -184,9 +200,16 @@ export default function PricingPage() {
 
       console.log('Initiating payment for plan:', planId)
       
+      // Clean up any previous iyzico state before new request
+      cleanupIyzico()
+      
+      // Add small delay to ensure cleanup is complete
+      await new Promise(resolve => setTimeout(resolve, 100))
+      
       // Call payment initiate API
       const response = await apiClient.post('/payment/initiate', {
         planId,
+        billingInterval: billingCycle, // Send billing interval (monthly/yearly)
         billingInfo: {
           contactName: user.name,
           city: 'New York',
@@ -198,13 +221,14 @@ export default function PricingPage() {
 
       console.log('Payment API Response:', response)
 
-      // Use iyzico popup instead of custom modal
-      if (response.checkoutFormContent) {
-        console.log('Opening iyzico checkout form')
-        openIyzicoCheckout(response.checkoutFormContent)
+      // Use iyzico redirect instead of popup for better UX
+      if (response.paymentPageUrl) {
+        console.log('Redirecting to iyzico payment page:', response.paymentPageUrl)
+        // Direct redirect to iyzico payment page
+        window.location.href = response.paymentPageUrl
       } else {
         console.error('Payment data not found in response:', response)
-        throw new Error('Payment initialization failed - no checkout form')
+        throw new Error('Payment initialization failed - no payment page URL')
       }
 
     } catch (error: any) {

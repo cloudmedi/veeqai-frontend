@@ -16,7 +16,7 @@ interface AuthContextType {
   user: User | null
   token: string | null
   refreshToken: string | null
-  login: (email: string, password: string, rememberMe?: boolean) => Promise<boolean>
+  login: (email: string, password: string, rememberMe?: boolean, turnstileToken?: string) => Promise<boolean>
   register: (name: string, email: string, password: string) => Promise<boolean>
   refreshAccessToken: () => Promise<boolean>
   logout: () => void
@@ -218,7 +218,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return refreshAccessTokenWithSavedToken(savedRefreshToken)
   }
 
-  const login = async (email: string, password: string, rememberMe: boolean = false): Promise<boolean> => {
+  const login = async (email: string, password: string, rememberMe: boolean = false, turnstileToken?: string): Promise<boolean> => {
     const rateLimitKey = `login_${email}`;
     
     // ✅ Check rate limiting
@@ -236,7 +236,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, turnstileToken }),
         // ✅ Add security headers
         credentials: 'same-origin',
       })

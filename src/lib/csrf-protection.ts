@@ -32,7 +32,8 @@ export class CSRFProtection {
    */
   private static async fetchNewToken(): Promise<void> {
     try {
-      const response = await fetch('/api/auth/csrf-token', {
+      const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_URL}/api/auth/csrf-token`, {
         method: 'GET',
         credentials: 'same-origin',
       });

@@ -1,0 +1,11 @@
+<script>
+if (window.opener) {
+  const params = new URLSearchParams(window.location.search);
+  const data = params.get('data');
+  if (data) {
+    window.opener.localStorage.setItem('google_auth_success', decodeURIComponent(data));
+    window.opener.location.href = window.opener.location.origin + '/login?google_auth=success';
+  }
+  window.close();
+}
+</script>
